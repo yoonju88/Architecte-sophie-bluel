@@ -135,8 +135,13 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
 }
+
+figcaption {
+	padding-top : 7px;
+	font-weight: 400;
+}
+
 #contact {
 	width: 50%;
 margin: auto;
