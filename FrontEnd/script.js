@@ -13,40 +13,71 @@ const loginUser = await fetch(baseUrl + "users/login", {
 })
 const loginUserResponse = await loginUser.json()
 //Récup GET categories
-const categories = await fetch(baseUrl + "categories", { method: "GET"})
+const categories = await fetch(baseUrl + "categories", { method: "GET" })
 const categoriesResponse = await categories.json()
 //Récup GET works
-const getGallery = await fetch(baseUrl + "works", {
-    method: "GET"
-    })
-
+const getGallery = await fetch(baseUrl + "works", { method: "GET" })
 const galleries = await getGallery.json()
 
-function generateGallery(galleries) {    
-    for (let i = 0; i < galleries.length; i++ ) {   
-    const infoGalleries = galleries[i]
-    const sectionGallery = document.querySelector(".gallery")
+// request postWorks
+async function uploadMultiple(formData) {
+    try {
+        const postWorks = await fetch(baseUrl + "works", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "multipart/form-data"
+            },
+            body: formData
+        })
+        const postWorksResponse = await postWorks.json()
+    } catch (error) {
+        console.log("failed", error)
+    }
+}
+const formData = new FormData()
+formData.append("title", "title")
+formData.append("category","categoryId")
+const imageUrls = galleries.map(gallery =>gallery.imageUrl)
 
-    const figureElement = document.createElement("figure")
-    figureElement.dataset.categoryId = infoGalleries.categoryId
-    figureElement.dataset.userId = infoGalleries.userId
-    sectionGallery.appendChild(figureElement)
+for (const imageUrl of imageUrls){
+    const Response = await fetch(imageUrl)
+    const blob = await Response.blob()
+    formData.append("images[]",blob, "image.jpg")
+}
+uploadMultiple(formData)
 
-    const imageElement = document.createElement("img")
-    imageElement.src = infoGalleries.imageUrl
-    imageElement.alt = infoGalleries.title
-    figureElement.appendChild(imageElement)
+const deleteWorks = await fetch(baseUrl + "works/{id}", {
+    method: "DELETE",
+    headers: {
+        "Accept": "*/*",
+    }
+})
+const deleteWorksResponse = await deleteWorks.json()
 
-    const figcaptionElement = document.createElement("figcaption")
-    figcaptionElement.innerText = infoGalleries.title
-    figureElement.appendChild(figcaptionElement)
+function generateGallery(galleries) {
+    for (let i = 0; i < galleries.length; i++) {
+        const infoGalleries = galleries[i]
+        const sectionGallery = document.querySelector(".gallery")
+
+        const figureElement = document.createElement("figure")
+        figureElement.dataset.categoryId = infoGalleries.categoryId
+        figureElement.dataset.userId = infoGalleries.userId
+        sectionGallery.appendChild(figureElement)
+
+        const imageElement = document.createElement("img")
+        imageElement.src = infoGalleries.imageUrl
+        imageElement.alt = infoGalleries.title
+        figureElement.appendChild(imageElement)
+
+        const figcaptionElement = document.createElement("figcaption")
+        figcaptionElement.innerText = infoGalleries.title
+        figureElement.appendChild(figcaptionElement)
     }
 }
 generateGallery(galleries);
-
 // buttons filters
 const btnFilters = document.querySelector(".btn-filters")
-
 const btnAll = document.createElement("button")
 const btnObject = document.createElement("button")
 const btnAppart = document.createElement("button")
@@ -61,39 +92,40 @@ btnFilters.appendChild(btnObject)
 btnFilters.appendChild(btnAppart)
 btnFilters.appendChild(btnHotel)
 
-const mapUserId = galleries.map(gallery=>gallery.userId)
-btnAll.addEventListener("click", function(){
-    const filterBtnAll = galleries.filter(function (gallery){
-        return gallery.userId === 1 
+// add EventListener for btn Object
+btnAll.addEventListener("click", function () {
+    const filterBtnAll = galleries.filter(function (gallery) {
+        return gallery.userId === 1
     })
     document.querySelector(".gallery").innerHTML = ""
     generateGallery(filterBtnAll)
 })
 
+//selection elements only categoryId with method map
 const categoryId = galleries.map(gallery => gallery.categoryId)
 
-btnObject.addEventListener("click", function(){
-    const filterbtnObject = galleries.filter(function (gallery){
+btnObject.addEventListener("click", function () {
+    const filterbtnObject = galleries.filter(function (gallery) {
         return gallery.categoryId === categoryId[0]
     })
     document.querySelector(".gallery").innerHTML = ""
     generateGallery(filterbtnObject)
-    console.log(filterbtnObject )   
+    console.log(filterbtnObject)
 })
 
-btnAppart.addEventListener("click", function(){
-    const filterBtnAppart = galleries.filter(function (gallery){
+btnAppart.addEventListener("click", function () {
+    const filterBtnAppart = galleries.filter(function (gallery) {
         return gallery.categoryId === categoryId[1]
     })
     document.querySelector(".gallery").innerHTML = ""
-    generateGallery(filterBtnAppart)  
+    generateGallery(filterBtnAppart)
 })
 
-btnHotel.addEventListener("click", function(){
-    const filterBtnHotel = galleries.filter(function (gallery){
+btnHotel.addEventListener("click", function () {
+    const filterBtnHotel = galleries.filter(function (gallery) {
         return gallery.categoryId === categoryId[2]
     })
     document.querySelector(".gallery").innerHTML = ""
     generateGallery(filterBtnHotel)
-    console.log(filterBtnHotel)   
+    console.log(filterBtnHotel)
 })
