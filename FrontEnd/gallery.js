@@ -31,22 +31,22 @@ async function uploadMultiple(formData) {
             body: formData
         })
         const postWorksResponse = await postWorks.json()
+        console.log("Success postWork", postWorksResponse)
     } catch (error) {
         console.log("failed", error)
     }
 }
 const formData = new FormData()
 formData.append("title", "title")
-formData.append("category","categoryId")
-const imageUrls = galleries.map(gallery =>gallery.imageUrl)
+formData.append("category", "categoryId")
+const imageUrls = galleries.map(gallery => gallery.imageUrl)
 
-for (const imageUrl of imageUrls){
+for (const imageUrl of imageUrls) {
     const Response = await fetch(imageUrl)
     const blob = await Response.blob()
-    formData.append("images[]",blob, "image.jpg")
+    formData.append("images[]", blob, "image.jpg")
 }
 uploadMultiple(formData)
-
 const deleteWorks = await fetch(baseUrl + "works/{id}", {
     method: "DELETE",
     headers: {
@@ -54,6 +54,7 @@ const deleteWorks = await fetch(baseUrl + "works/{id}", {
     }
 })
 const deleteWorksResponse = await deleteWorks.json()
+console.log("delete success", deleteWorksResponse)
 
 function generateGallery(galleries) {
     for (let i = 0; i < galleries.length; i++) {
