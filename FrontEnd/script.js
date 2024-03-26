@@ -22,13 +22,14 @@ const getGallery = await fetch(baseUrl + "works", {
 
 const galleries = await getGallery.json()
 
-function createGallery(galleries) {    
+function generateGallery(galleries) {    
     for (let i = 0; i < galleries.length; i++ ) {   
-
     const infoGalleries = galleries[i]
-
     const sectionGallery = document.querySelector(".gallery")
+
     const figureElement = document.createElement("figure")
+    figureElement.dataset.categoryId = infoGalleries.categoryId
+    figureElement.dataset.userId = infoGalleries.userId
     sectionGallery.appendChild(figureElement)
 
     const imageElement = document.createElement("img")
@@ -41,7 +42,58 @@ function createGallery(galleries) {
     figureElement.appendChild(figcaptionElement)
     }
 }
-createGallery(galleries);
- // Récup element catégorie dans galleries array
-const categoryGalleries = galleries.map (galleries => galleries.category)
+generateGallery(galleries);
 
+// buttons filters
+const btnFilters = document.querySelector(".btn-filters")
+
+const btnAll = document.createElement("button")
+const btnObject = document.createElement("button")
+const btnAppart = document.createElement("button")
+const btnHotel = document.createElement("button")
+
+btnAll.textContent = "Tous"
+btnObject.textContent = "Objects"
+btnAppart.textContent = "Appartements"
+btnHotel.textContent = "Hotels & restaurants"
+btnFilters.appendChild(btnAll)
+btnFilters.appendChild(btnObject)
+btnFilters.appendChild(btnAppart)
+btnFilters.appendChild(btnHotel)
+
+const mapUserId = galleries.map(gallery=>gallery.userId)
+btnAll.addEventListener("click", function(){
+    const filterBtnAll = galleries.filter(function (gallery){
+        return gallery.userId === 1 
+    })
+    document.querySelector(".gallery").innerHTML = ""
+    generateGallery(filterBtnAll)
+})
+
+const categoryId = galleries.map(gallery => gallery.categoryId)
+
+btnObject.addEventListener("click", function(){
+    const filterbtnObject = galleries.filter(function (gallery){
+        return gallery.categoryId === categoryId[0]
+    })
+    document.querySelector(".gallery").innerHTML = ""
+    generateGallery(filterbtnObject)
+    console.log(filterbtnObject )   
+})
+
+btnAppart.addEventListener("click", function(){
+    const filterBtnAppart = galleries.filter(function (gallery){
+        return gallery.categoryId === categoryId[1]
+    })
+    document.querySelector(".gallery").innerHTML = ""
+    generateGallery(filterBtnAppart)  
+})
+
+btnHotel.addEventListener("click", function(){
+    const filterBtnHotel = galleries.filter(function (gallery){
+        return gallery.categoryId === categoryId[2]
+    })
+    document.querySelector(".gallery").innerHTML = ""
+    generateGallery(filterBtnHotel)
+    console.log(filterBtnHotel)   
+})
