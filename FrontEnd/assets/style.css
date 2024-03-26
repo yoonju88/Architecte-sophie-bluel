@@ -34,6 +34,13 @@ body {
 ol, ul {
 	list-style: none;
 }
+/* add style login dans homepage */
+.login {
+	text-decoration: none;
+	color :black;
+	cursor: default;
+}
+
 blockquote, q {
 	quotes: none;
 }
@@ -142,33 +149,38 @@ figcaption {
 	font-weight: 400;
 }
 
-#contact {
+#contact, #logInSection {
 	width: 50%;
-margin: auto;
+    margin: auto;
 }
-#contact > * {
+#contact > * , #logInSection > * {
 	text-align: center;
 
 }
-#contact h2{
+#contact h2,#logInSection h2 {
 	margin-bottom: 20px;
 }
-#contact form {
+#contact form, #logInSection form{
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+#contact input, #logInSection input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+#contact label, #logInSection label {
 	margin: 2em 0 1em 0;
 }
+
+#logInSection p {
+	text-decoration: underline;
+}
+
 #contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
