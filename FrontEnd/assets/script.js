@@ -15,13 +15,10 @@ const loginUser = await fetch(baseUrl + "users/login", {
     })
 })
 const loginUserResponse = await loginUser.json()
-console.log("succes",loginUserResponse)
-// Transformation loginUserResponse en JSON
-const valeurLoginUser = JSON.stringify(loginUserResponse)
-//stockage des information dans le localStorage
-window.localStorage.setItem("token",valeurLoginUser)
-const email
+console.log("succes", loginUserResponse)
+const valeurLogin = JSON.stringify(loginUserResponse)
 
+const localLogin = window.localStorage.setItem("email", valeurLogin)
 
 //Récup GET categories
 async function handlecategories() {
@@ -109,56 +106,40 @@ generateGallery(galleries);
 
 // buttons filters
 const btnFilters = document.querySelector(".btn-filters")
-const btnAll = document.createElement("button")
-const btnObject = document.createElement("button")
-const btnAppart = document.createElement("button")
-const btnHotel = document.createElement("button")
-
-btnAll.textContent = "Tous"
-btnObject.textContent = "Objects"
-btnAppart.textContent = "Appartements"
-btnHotel.textContent = "Hotels & restaurants"
-btnFilters.appendChild(btnAll)
-btnFilters.appendChild(btnObject)
-btnFilters.appendChild(btnAppart)
-btnFilters.appendChild(btnHotel)
-
-// add EventListener for btn Object
-btnAll.addEventListener("click", function () {
-    const filterBtnAll = galleries.filter(function (gallery) {
-        return gallery.userId === 1
-    })
-    document.querySelector(".gallery").innerHTML = ""
-    generateGallery(filterBtnAll)
-})
-
 //selection elements only categoryId with method map
-const categoryId = galleries.map(gallery => gallery.categoryId)
+const mapCategoryId = galleries.map(gallery => gallery.categoryId)
+const mapCategory = galleries.map(gallery => gallery.category)
+const setCategoryId = new Set(mapCategoryId)
 
-btnObject.addEventListener("click", function () {
-    const filterbtnObject = galleries.filter(function (gallery) {
-        return gallery.categoryId === categoryId[0]
-    })
-    document.querySelector(".gallery").innerHTML = ""
-    generateGallery(filterbtnObject)
-    console.log(filterbtnObject)
-})
+function generateButtons() {
 
-btnAppart.addEventListener("click", function () {
-    const filterBtnAppart = galleries.filter(function (gallery) {
-        return gallery.categoryId === categoryId[1]
-    })
-    document.querySelector(".gallery").innerHTML = ""
-    generateGallery(filterBtnAppart)
-})
+    for (let i = 0; i < setCategoryId.size + 1; i++) {
+        const valeurCategory = mapCategory.find(category => category.id === i)
+        const button = document.createElement("button")
+        btnFilters.appendChild(button)
+        if (!valeurCategory) {
+            button.textContent = "tous"
+            button.addEventListener("click", function (){
+                const filterBtnAll = galleries.filter(function (gallery) {
+                    return gallery.userId === 1
+                })
+                document.querySelector(".gallery").innerHTML = ""
+                generateGallery(filterBtnAll)
+                console.log("display all", filterBtnAll)
+            })
 
-btnHotel.addEventListener("click", function () {
-    const filterBtnHotel = galleries.filter(function (gallery) {
-        return gallery.categoryId === categoryId[2]
-    })
-    document.querySelector(".gallery").innerHTML = ""
-    generateGallery(filterBtnHotel)
-    console.log(filterBtnHotel)
-})
-
-
+        } else {
+            button.textContent = valeurCategory.name
+            button.addEventListener("click", function () {
+                let categoryId = valeurCategory.id
+                const FilterButton = galleries.filter(function (gallery) {
+                    return gallery.category.id === categoryId
+                })
+                document.querySelector(".gallery").innerHTML = ""
+                generateGallery(FilterButton)
+                console.log("test filter", FilterButton)
+            })
+        }
+    }
+}
+generateButtons()
