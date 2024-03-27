@@ -132,6 +132,33 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.btn-filters {
+display:flex;
+justify-content: center;
+margin : 3em auto ;
+column-gap: 20px;;
+}
+
+button {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: #1D6154;
+	border : 2px, #1D6154;
+	height: 37px;
+	text-align: center;
+	border-radius: 100px;
+	width:18%;
+}
+
+button:hover {
+	color: white;
+	background-color: #1D6154;
+	
+}
+
+
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -173,6 +200,7 @@ figcaption {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+
 #contact label, #logInSection label {
 	margin: 2em 0 1em 0;
 }
@@ -203,3 +231,9 @@ footer nav ul {
 	margin: 2em
 }
 
+.errorMessage{
+	padding-top : 20px;
+ 	color : red;
+	text-align: center;
+	font-size: 14px;
+}
