@@ -1,14 +1,10 @@
 const baseUrl = "http://localhost:5678/api/"
 //Récup GET categories
-const getCategories = await fetch(baseUrl + "categories", {
-    method: "GET"
-})
+const getCategories = await fetch(baseUrl + "categories", { method: "GET" })
 const arrayCategories = await getCategories.json()
 
 //Récup GET works
-const getGallery = await fetch(baseUrl + "works", {
-    method: "GET"
-})
+const getGallery = await fetch(baseUrl + "works", { method: "GET" })
 const galleries = await getGallery.json()
 
 export async function addGenerateGallery() {
@@ -17,9 +13,9 @@ export async function addGenerateGallery() {
         for (let i = 0; i < galleries.length; i++) {
             const infoGalleries = galleries[i]
             const sectionGallery = document.querySelector(".gallery")
-            if (!sectionGallery){
-                return
-            }
+            // correction error on login page
+            if (!sectionGallery){ return }
+
             const figureElement = document.createElement("figure")
             figureElement.dataset.categoryId = infoGalleries.categoryId
             figureElement.dataset.userId = infoGalleries.userId
@@ -38,9 +34,9 @@ export async function addGenerateGallery() {
     generateGallery(galleries);
 
     const btnFilters = document.querySelector(".btn-filters")
-    if (!btnFilters){
-        return
-    }
+    // correction error on login page
+    if (!btnFilters){ return }
+
     const mapCategory = galleries.map(gallery => gallery.category)
 
     function generateButtons() {
@@ -49,6 +45,7 @@ export async function addGenerateGallery() {
             const categoryLists = arrayCategories.find(category => category.id === i)
             const button = document.createElement("button")
             btnFilters.appendChild(button)
+            
             if (!categoryLists) {
                 button.textContent = "tous"
                 button.addEventListener("click", function () {

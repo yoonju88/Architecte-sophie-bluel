@@ -1,16 +1,14 @@
 
 export async function addValidationLogin() {
     const loginForm = document.getElementById("loginForm")
-    const errorMsg = document.querySelector(".errorMessage")
-
-    if (!loginForm){
-        return
-    }
+    const errorMessage = document.querySelector(".errorMessage")
+    // correction erroe on homepage
+    if (!loginForm){ return }
 
     loginForm.addEventListener("submit", validationLogin)
 
-    function afficheErrorMessage() {
-        errorMsg.innerHTML = "<span>Erreur dans l'identifiant ou le mot de passe</span>"
+    function displayErrorMessage() {
+        errorMessage.innerHTML = "<span>Erreur dans l'identifiant ou le mot de passe</span>"
     }
     async function validationLogin(event) {
         event.preventDefault()
@@ -24,7 +22,7 @@ export async function addValidationLogin() {
             window.location = "index.html"
             localStorage.setItem("token", resultat.token)
         } else {
-            afficheErrorMessage()
+            displayErrorMessage()
         }
     }
 }
@@ -44,7 +42,7 @@ async function getLoginUser(email, password) {
     return await loginUser.json()
 }
 
-const saveToken = localStorage.getItem ("token")
+const saveToken = localStorage.getItem("token")
 if (saveToken) {
 console.log(saveToken)
 }
