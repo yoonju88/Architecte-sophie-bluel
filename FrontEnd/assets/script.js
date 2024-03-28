@@ -78,13 +78,13 @@ for (const imageUrl of imageUrls) {
     const Response = await fetch(imageUrl)
     const blob = await Response.blob()
     formData.append("images[]", blob)
-uploadMultiple(formData)
+    uploadMultiple(formData)
 
 const deleteWorks = await fetch(baseUrl + "works/{id}", {
-    method: "DELETE",
-    headers: {
-        "Accept": "*/*",
-    }
+        method: "DELETE",
+        headers: {
+            "Accept": "*/*",
+        }
 })
 const deleteWorksResponse = await deleteWorks.json()
 console.log("Success delete works", deleteWorksResponse)
@@ -112,42 +112,41 @@ function generateGallery(galleries) {
 }
 generateGallery(galleries);
 
- // buttons filters
- const btnFilters = document.querySelector(".btn-filters")
- //selection elements only categoryId with method map
- const mapCategoryId = galleries.map(gallery => gallery.categoryId)
- const mapCategory = galleries.map(gallery => gallery.category)
- const setCategoryId = new Set(mapCategoryId)
+// buttons filters
+const btnFilters = document.querySelector(".btn-filters")
+//selection elements only categoryId with method map
+const mapCategoryId = galleries.map(gallery => gallery.categoryId)
+const mapCategory = galleries.map(gallery => gallery.category)
+const setCategoryId = new Set(mapCategoryId)
 
- function generateButtons() {
+function generateButtons() {
+    for (let i = 0; i < setCategoryId.size + 1; i++) {
+        const valeurCategory = mapCategory.find(category => category.id === i)
+        const button = document.createElement("button")
+        btnFilters.appendChild(button)
+        if (!valeurCategory) {
+            button.textContent = "tous"
+            button.addEventListener("click", function () {
+                const filterBtnAll = galleries.filter(function (gallery) {
+                    return gallery.userId === 1
+                })
+                document.querySelector(".gallery").innerHTML = ""
+                generateGallery(filterBtnAll)
+                console.log("display all", filterBtnAll)
+                })
 
-     for (let i = 0; i < setCategoryId.size + 1; i++) {
-         const valeurCategory = mapCategory.find(category => category.id === i)
-         const button = document.createElement("button")
-         btnFilters.appendChild(button)
-         if (!valeurCategory) {
-             button.textContent = "tous"
-             button.addEventListener("click", function () {
-                 const filterBtnAll = galleries.filter(function (gallery) {
-                     return gallery.userId === 1
-                 })
-                 document.querySelector(".gallery").innerHTML = ""
-                 generateGallery(filterBtnAll)
-                 console.log("display all", filterBtnAll)
-             })
-
-         } else {
-             button.textContent = valeurCategory.name
-             button.addEventListener("click", function () {
-                 let categoryId = valeurCategory.id
-                 const FilterButton = galleries.filter(function (gallery) {
-                     return gallery.category.id === categoryId
-                 })
-                 document.querySelector(".gallery").innerHTML = ""
-                 generateGallery(FilterButton)
-                 console.log("test filter", FilterButton)
-             })
-         }
-     }
- }
- generateButtons()
+        } else {
+            button.textContent = valeurCategory.name
+            button.addEventListener("click", function () {
+                let categoryId = valeurCategory.id
+                const FilterButton = galleries.filter(function (gallery) {
+                    return gallery.category.id === categoryId
+                })
+                document.querySelector(".gallery").innerHTML = ""
+                generateGallery(FilterButton)
+                console.log("test filter", FilterButton)
+            })
+        }
+    }
+}
+generateButtons()
