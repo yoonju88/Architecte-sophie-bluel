@@ -3,27 +3,48 @@ export async function addValidationLogin() {
     const loginForm = document.getElementById("loginForm")
     const errorMsg = document.querySelector(".errorMessage")
 
+    if (!loginForm){
+        return
+    }
+
     loginForm.addEventListener("submit", validationLogin)
 
-    function afficheErrorMessage () {
+    function afficheErrorMessage() {
         errorMsg.innerHTML = "<span>Erreur dans l'identifiant ou le mot de passe</span>"
     }
-    function validationLogin(event) {
+    async function validationLogin(event) {
         event.preventDefault()
 
         const userEmail = document.getElementById("loginEmail").value
         const loginPassword = document.getElementById("loginPassword").value
 
-        const valideEmail = "sophie.bluel@test.tld"
-        const validePassword = "S0phie"
-
-        if (userEmail == valideEmail && loginPassword == validePassword) {
-            console.log('connexion réussie')
+        const resultat = await getLoginUser(userEmail.trim(), loginPassword.trim())
+        console.log(resultat)
+        if (resultat.token) {
             window.location = "index.html"
-
+            localStorage.setItem("token", resultat.token)
         } else {
-            afficheErrorMessage ()
-            console.log("Erreur dans l'identifiant ou le mot de passe")
+            afficheErrorMessage()
         }
     }
+}
+
+async function getLoginUser(email, password) {
+    const baseUrl = "http://localhost:5678/api/"
+    const loginUser = await fetch(baseUrl + "users/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "email": email,
+            "password": password
+        })
+    })
+    return await loginUser.json()
+}
+
+const saveToken = localStorage.getItem ("token")
+if (saveToken) {
+console.log(saveToken)
 }

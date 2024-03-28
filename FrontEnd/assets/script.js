@@ -1,54 +1,10 @@
 import { addValidationLogin } from "./login.js"
-//import { addGenerateGallery, addGenerateButtons } from "./gallery.js"
+import { addGenerateGallery } from "./gallery.js"
 
 addValidationLogin()
-//addGenerateButtons()
-//addGenerateGallery()
+addGenerateGallery()
 
-//Base de URL
-const baseUrl = "http://localhost:5678/api/"
-//Récup POST users/login 
-const loginUser = await fetch(baseUrl + "users/login", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        "email": "sophie.bluel@test.tld",
-        "password": "S0phie"
-    })
-})
-const loginUserResponse = await loginUser.json()
-console.log("Succes login user", loginUserResponse)
-const valeurLogin = JSON.stringify(loginUserResponse)
 /*
-if (!sessionStorage.getItem )
-
-function storageLogin() {
-    sessionStorage.setItem("email", )
-}*/
-
-
-//Récup GET categories
-async function handlecategories() {
-    try {
-        const categories = await fetch(baseUrl + "categories", {
-            method: "GET"
-        })
-        const categoriesResponse = await categories.json()
-        console.log("Succes categories", categoriesResponse)
-    } catch (error) {
-        console.log("failed categories", error)
-    }
-}
-handlecategories()
-
-//Récup GET works
-const getGallery = await fetch(baseUrl + "works", {
-    method: "GET"
-})
-const galleries = await getGallery.json()
-
 // request postWorks
 async function uploadMultiple(formData) {
     try {
@@ -63,7 +19,7 @@ async function uploadMultiple(formData) {
         const postWorksResponse = await postWorks.json()
         console.log("Success postWork", postWorksResponse)
     } catch (error) {
-        console.log("failed postWork", error)
+        console.error("failed postWork", error)
     }
 }
 uploadMultiple()
@@ -84,12 +40,13 @@ for (const imageUrl of imageUrls) {
 const deleteWorks = await fetch(baseUrl + "works/{id}", {
         method: "DELETE",
         headers: {
-            "Accept": "*/*",
+            "Accept": ,
         }
 })
-const deleteWorksResponse = await deleteWorks.json()
-console.log("Success delete works", deleteWorksResponse)
 
+const deleteWorksResponse = await deleteWorks.json()
+console.log("Success delete works", deleteWorksResponse)*/
+/*
 function generateGallery(galleries) {
     for (let i = 0; i < galleries.length; i++) {
         const infoGalleries = galleries[i]
@@ -129,7 +86,7 @@ function generateButtons() {
             button.textContent = "tous"
             button.addEventListener("click", function () {
                 const filterBtnAll = galleries.filter(function (gallery) {
-                    return gallery.userId === 1
+                    return mapCategory
                 })
                 document.querySelector(".gallery").innerHTML = ""
                 generateGallery(filterBtnAll)
@@ -150,4 +107,4 @@ function generateButtons() {
         }
     }
 }
-generateButtons()
+generateButtons()*/
