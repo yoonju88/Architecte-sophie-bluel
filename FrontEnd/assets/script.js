@@ -79,6 +79,7 @@ for (const imageUrl of imageUrls) {
     const blob = await Response.blob()
     formData.append("images[]", blob)
     uploadMultiple(formData)
+}
 
 const deleteWorks = await fetch(baseUrl + "works/{id}", {
         method: "DELETE",
