@@ -1,5 +1,9 @@
 import { addValidationLogin } from "./login.js"
+//import { addGenerateGallery, addGenerateButtons } from "./gallery.js"
+
 addValidationLogin()
+//addGenerateButtons()
+//addGenerateGallery()
 
 //Base de URL
 const baseUrl = "http://localhost:5678/api/"
@@ -15,10 +19,15 @@ const loginUser = await fetch(baseUrl + "users/login", {
     })
 })
 const loginUserResponse = await loginUser.json()
-console.log("succes", loginUserResponse)
+console.log("Succes login user", loginUserResponse)
 const valeurLogin = JSON.stringify(loginUserResponse)
+/*
+if (!sessionStorage.getItem )
 
-const localLogin = window.localStorage.setItem("email", valeurLogin)
+function storageLogin() {
+    sessionStorage.setItem("email", )
+}*/
+
 
 //Récup GET categories
 async function handlecategories() {
@@ -27,9 +36,9 @@ async function handlecategories() {
             method: "GET"
         })
         const categoriesResponse = await categories.json()
-        console.log("succes categories", categoriesResponse)
+        console.log("Succes categories", categoriesResponse)
     } catch (error) {
-        console.log("error categories", error)
+        console.log("failed categories", error)
     }
 }
 handlecategories()
@@ -54,7 +63,7 @@ async function uploadMultiple(formData) {
         const postWorksResponse = await postWorks.json()
         console.log("Success postWork", postWorksResponse)
     } catch (error) {
-        console.log("failed", error)
+        console.log("failed postWork", error)
     }
 }
 uploadMultiple()
@@ -68,8 +77,7 @@ const imageUrls = galleries.map(gallery => gallery.imageUrl)
 for (const imageUrl of imageUrls) {
     const Response = await fetch(imageUrl)
     const blob = await Response.blob()
-    formData.append("images[]", blob, "image.jpg")
-}
+    formData.append("images[]", blob)
 uploadMultiple(formData)
 
 const deleteWorks = await fetch(baseUrl + "works/{id}", {
@@ -79,7 +87,7 @@ const deleteWorks = await fetch(baseUrl + "works/{id}", {
     }
 })
 const deleteWorksResponse = await deleteWorks.json()
-console.log("delete success", deleteWorksResponse)
+console.log("Success delete works", deleteWorksResponse)
 
 function generateGallery(galleries) {
     for (let i = 0; i < galleries.length; i++) {
@@ -104,42 +112,42 @@ function generateGallery(galleries) {
 }
 generateGallery(galleries);
 
-// buttons filters
-const btnFilters = document.querySelector(".btn-filters")
-//selection elements only categoryId with method map
-const mapCategoryId = galleries.map(gallery => gallery.categoryId)
-const mapCategory = galleries.map(gallery => gallery.category)
-const setCategoryId = new Set(mapCategoryId)
+ // buttons filters
+ const btnFilters = document.querySelector(".btn-filters")
+ //selection elements only categoryId with method map
+ const mapCategoryId = galleries.map(gallery => gallery.categoryId)
+ const mapCategory = galleries.map(gallery => gallery.category)
+ const setCategoryId = new Set(mapCategoryId)
 
-function generateButtons() {
+ function generateButtons() {
 
-    for (let i = 0; i < setCategoryId.size + 1; i++) {
-        const valeurCategory = mapCategory.find(category => category.id === i)
-        const button = document.createElement("button")
-        btnFilters.appendChild(button)
-        if (!valeurCategory) {
-            button.textContent = "tous"
-            button.addEventListener("click", function (){
-                const filterBtnAll = galleries.filter(function (gallery) {
-                    return gallery.userId === 1
-                })
-                document.querySelector(".gallery").innerHTML = ""
-                generateGallery(filterBtnAll)
-                console.log("display all", filterBtnAll)
-            })
+     for (let i = 0; i < setCategoryId.size + 1; i++) {
+         const valeurCategory = mapCategory.find(category => category.id === i)
+         const button = document.createElement("button")
+         btnFilters.appendChild(button)
+         if (!valeurCategory) {
+             button.textContent = "tous"
+             button.addEventListener("click", function () {
+                 const filterBtnAll = galleries.filter(function (gallery) {
+                     return gallery.userId === 1
+                 })
+                 document.querySelector(".gallery").innerHTML = ""
+                 generateGallery(filterBtnAll)
+                 console.log("display all", filterBtnAll)
+             })
 
-        } else {
-            button.textContent = valeurCategory.name
-            button.addEventListener("click", function () {
-                let categoryId = valeurCategory.id
-                const FilterButton = galleries.filter(function (gallery) {
-                    return gallery.category.id === categoryId
-                })
-                document.querySelector(".gallery").innerHTML = ""
-                generateGallery(FilterButton)
-                console.log("test filter", FilterButton)
-            })
-        }
-    }
-}
-generateButtons()
+         } else {
+             button.textContent = valeurCategory.name
+             button.addEventListener("click", function () {
+                 let categoryId = valeurCategory.id
+                 const FilterButton = galleries.filter(function (gallery) {
+                     return gallery.category.id === categoryId
+                 })
+                 document.querySelector(".gallery").innerHTML = ""
+                 generateGallery(FilterButton)
+                 console.log("test filter", FilterButton)
+             })
+         }
+     }
+ }
+ generateButtons()
