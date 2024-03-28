@@ -12,12 +12,14 @@ const getGallery = await fetch(baseUrl + "works", {
 const galleries = await getGallery.json()
 
 export async function addGenerateGallery() {
+    
     function generateGallery(galleries) {
         for (let i = 0; i < galleries.length; i++) {
             const infoGalleries = galleries[i]
-
             const sectionGallery = document.querySelector(".gallery")
-
+            if (!sectionGallery){
+                return
+            }
             const figureElement = document.createElement("figure")
             figureElement.dataset.categoryId = infoGalleries.categoryId
             figureElement.dataset.userId = infoGalleries.userId
@@ -36,6 +38,9 @@ export async function addGenerateGallery() {
     generateGallery(galleries);
 
     const btnFilters = document.querySelector(".btn-filters")
+    if (!btnFilters){
+        return
+    }
     const mapCategory = galleries.map(gallery => gallery.category)
 
     function generateButtons() {
