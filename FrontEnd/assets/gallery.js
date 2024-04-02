@@ -67,7 +67,7 @@ export async function addGenerateGallery() {
                     generateGallery(FilterButton)
                     console.log("test filter", FilterButton)
                 })
-            }
+            } 
         }
     }
     generateButtons()
