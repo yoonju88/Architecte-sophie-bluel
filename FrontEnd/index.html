@@ -61,6 +61,56 @@
 		</form>
 	</section>
 </main> 
+<!-- section pour modal -->
+<aside id ="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby ="modalGallery" style="display:none">
+    <div class="modal-wrapper js-modalStop">
+		<a class="js-closeModal closeModal"><i class="fa-solid fa-xmark"></i></a>
+		<div class="modalContent">
+			<h3 id="modalGallery">Galerie photo</h3>
+			<div class="modal-sectionGallery">
+				
+			</div>
+			<div class="line"></div>
+			<button href="#modal2" class="js-modal">Ajouter une photo</button>
+		</div>
+	</div>
+  </aside>
+
+  <aside id ="modal2" class="modal" aria-hidden="true" role="dialog" aria-labelledby ="modalAddGallery" style="display:none">
+	<div class="modal-wrapper js-modalStop">
+		<div class="modalIcones">
+			<a class="return" href="#modal1"><i class="fa-solid fa-arrow-left"></i></a>
+			<a class="js-closeModal"><i class="fa-solid fa-xmark"></i></a>
+		</div>
+		<div class="modalContent">
+			<h3 id="modalAddGallery">Ajout photo</h3>
+			<form enctype="multipart/form-data">
+				<div class="sectionAddImage">
+					<i class="fa-regular fa-image"></i>
+					<div class="fileUpload">
+						<input type="file" class="file" valeur="+ Ajouter photo" accept="image/png,image/jpeg"/>
+						<span>+ Ajouter Photo</span>
+					</div>
+					<span>jpg.png : 4mo max</span>
+				</div>
+				<div class="zoneInput">
+					<label for="titre">Titre</label>
+					<input type="text" name="titre" id="titre"/>
+					<label for="categorie-choice">Catégorie</label>
+					<input list="categorieList" id="categorie-choice" name="categorie-choice"/>
+					<datalist id="categorieList">
+						<option value="Tous"></option>
+						<option value="Objets"></option>
+						<option value="Appartements"></option>
+						<option value="Hotels & restaurants"></option>
+					</datalist>
+				</div>
+				<div class="line"></div>
+				<button class="valideImage" href="#modal1" class="js-modal">Valider</button>
+		</form>
+		</div>
+	</div>
+  </aside>
 
 <footer>
 	<nav>
@@ -69,5 +119,8 @@
 		</ul>
 	</nav>
 </footer>
+
+
 </body>
 </html>
+100
