@@ -72,3 +72,31 @@ export async function addGenerateGallery() {
     }
     generateButtons()
 }
+
+export async function GenerateModalGallery() {
+    
+    function modalGallery(galleries) {
+        const modalSectionGallery = document.querySelector(".modal-sectionGallery")
+        // correction error on login page
+        if (!modalSectionGallery){ return }
+    
+        for (let i = 0; i < galleries.length; i++) {
+         
+            const nGalleries = galleries[i]
+            let addIcone = `<a class="removeImage"><i class="fa-solid fa-trash-can"></i></a>`
+            const figureElement = document.createElement("figure")
+            figureElement.dataset.categoryId = nGalleries.categoryId
+            figureElement.dataset.userId = nGalleries.userId
+            modalSectionGallery.appendChild(figureElement)
+            figureElement.innerHTML = addIcone
+
+            const imageElement = document.createElement("img")
+            imageElement.src = nGalleries.imageUrl
+            imageElement.alt = nGalleries.title
+            figureElement.appendChild(imageElement)
+
+        }
+    }
+    modalGallery(galleries);
+
+    }
