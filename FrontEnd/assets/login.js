@@ -1,3 +1,17 @@
+async function getLoginUser(email, password) {
+    const baseUrl = "http://localhost:5678/api/"
+    const loginUser = await fetch(baseUrl + "users/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "email": email,
+            "password": password
+        }) // reprise des valeurs "email" et "password" depuis serveur
+    })
+    return await loginUser.json()
+}
 
 export async function addValidationLogin() {
     const loginForm = document.getElementById("loginForm")
@@ -24,21 +38,6 @@ export async function addValidationLogin() {
     }
 }
 
-async function getLoginUser(email, password) {
-    const baseUrl = "http://localhost:5678/api/"
-    const loginUser = await fetch(baseUrl + "users/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "email": email,
-            "password": password
-        }) // reprise des valeurs "email" et "password" depuis serveur
-    })
-    return await loginUser.json()
-}
-
 export async function addLogout() {
     const login = document.querySelector(".login")
     const saveToken = localStorage.getItem("token")
@@ -46,20 +45,19 @@ export async function addLogout() {
     const portfolio = document.getElementById("portfolio")
     let insertModeEdition = `
             <div id ="modeEdition">
-            <a><i class="fa-regular fa-pen-to-square"></i> Mode edition</a>
+            <a href="#modal1" class="js-modal" ><i class="fa-regular fa-pen-to-square"></i> Mode edition</a>
             </div>
         `
     let newContentPf = `
         <div class="portfolioTitle">
         <h2>Mes Projets</h2>
-		<a id="modal" class="edition-modal"> 
+		<a href="#modal1" class="js-modal" > 
             <i class="fa-regular fa-pen-to-square"></i> modifier
         </a>
         </div>
 		<div class="gallery">
 		</div>
         `
-
     function disconnection (event) {
         event.preventDefault()
         localStorage.removeItem("token")
@@ -74,8 +72,5 @@ export async function addLogout() {
 
     console.log(saveToken)
     } 
-
-  
-
 }
 
