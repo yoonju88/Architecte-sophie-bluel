@@ -1,9 +1,12 @@
 import { addValidationLogin, addLogout } from "./login.js"
-import { addGenerateGallery } from "./gallery.js"
+import { addGenerateGallery, GenerateModalGallery } from "./gallery.js"
+import { displayModal } from "./edition.js"
 
 addValidationLogin()
 addLogout()
 addGenerateGallery()
+GenerateModalGallery()
+displayModal()
 
 /*
 // request postWorks
