@@ -23,6 +23,8 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
+* {box-sizing: border-box;}
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -96,7 +98,6 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
 }
 
 h2{
@@ -177,11 +178,8 @@ button {
 
 button:hover {
 	color: white;
-	background-color: #1D6154;
-	
+	background-color: #1D6154;	
 }
-
-
 
 .gallery {
 	width: 100%;
@@ -191,7 +189,7 @@ button:hover {
 	grid-row-gap: 20px;
 }
 
-.gallery img {
+.gallery img{
 	width: 100%;
 }
 
@@ -218,14 +216,14 @@ figcaption {
 	flex-direction: column;
 }
 
-#contact input, #logInSection input {
+#contact input, #logInSection input, .zoneInput input{
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-#contact label, #logInSection label {
+#contact label, #logInSection label, .zoneInput label {
 	margin: 2em 0 1em 0;
 }
 
@@ -260,4 +258,155 @@ footer nav ul {
  	color : red;
 	text-align: center;
 	font-size: 14px;
+}
+
+/* modal style */
+
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent,
+.modalContent form,
+.sectionAddImage{
+	display:flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.closeModal {
+	margin-left : 97.8%;
+}
+
+.modal-wrapper {
+	background-color: white;
+	width: 630px;
+	height: 670px;
+	max-width: calc(100vw - 20px);
+	max-height: calc(100vh - 20px);
+	padding: 30px; 
+	border-radius: 2%;
+}
+
+.modalIcones {
+	display:flex;
+	justify-content: space-between;
+}
+
+.fa-xmark, .fa-arrow-left{
+	font-size: 20px;
+}
+
+.modal-wrapper button {
+	width: 235px;
+	margin-top:35px;
+}
+
+.galleryModal {
+	width: 420px;
+	margin-left: 12%;
+	border-bottom: 2px solid #B3B3B3;
+}
+
+.modal-wrapper h3 {
+	font-weight: 400;
+	font-size: 26px;
+	text-align: center;
+}
+
+.modal-sectionGallery {
+	overflow: auto;
+	padding: 40px 0px;
+	width:  420px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 10px;
+	grid-row-gap: 22px;
+}
+
+.modal-sectionGallery img{
+	width: 100%;
+	height: 100%;
+}
+
+.modal-sectionGallery figure {
+	position: relative;
+}
+
+.removeImage {
+	position: absolute;
+	bottom: 78%;
+	right:8%;
+}
+
+.removeImage i {
+	padding:5px 5px;
+	font-size: 9px;
+	border-radius: 3px;
+	background: black;
+	color: white;
+}
+
+.line {
+	border-top : 1px solid #b3b3b3b3;
+	width : 420px;;
+	margin-top:40px;
+}
+
+.sectionAddImage {
+	width:420px;
+	height:169px;
+	border-radius: 4px;
+	background:#E8F1F6;
+	margin-top:30px;
+}
+.sectionAddImage i{
+	font-size: 76px;
+	color: #B9C5CC;
+}
+
+.fileUpload {
+	border:none;
+	width:175px;
+	height:36px;
+	background: #B9C5CC;
+	border-radius: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin:10px;
+}
+input[type="file"] {
+	display:none;
+}
+.fileUpload span{
+	color:#306685;
+	font-size: 14px;
+}
+.sectionAddImage span{
+	color:#444444;
+	font-size: 10px;
+}
+
+.zoneInput input {
+	width:420px;
+}
+
+.zoneInput {
+	display:flex;
+	justify-content: center;
+	flex-direction: column;
+}
+.valideImage{
+	color:white;
+	background: #A7A7A7;
 }
