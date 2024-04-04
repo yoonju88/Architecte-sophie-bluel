@@ -35,6 +35,8 @@ export async function addValidationLogin() {
         } else {
             errorMessage.innerHTML = "<span>Erreur dans l'identifiant ou le mot de passe</span>"
         }
+
+        
     }
 }
 
@@ -45,13 +47,13 @@ export async function addLogout() {
     const portfolio = document.getElementById("portfolio")
     let insertModeEdition = `
             <div id ="modeEdition">
-            <a href="#modal1" class="js-modal" ><i class="fa-regular fa-pen-to-square"></i> Mode edition</a>
+            <a href="#modal1" class="open-modal" ><i class="fa-regular fa-pen-to-square"></i>Mode edition</a>
             </div>
         `
     let newContentPf = `
         <div class="portfolioTitle">
         <h2>Mes Projets</h2>
-		<a href="#modal1" class="js-modal" > 
+		<a href="#modal1" class="open-modal" > 
             <i class="fa-regular fa-pen-to-square"></i> modifier
         </a>
         </div>
