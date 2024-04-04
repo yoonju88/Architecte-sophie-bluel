@@ -35,8 +35,6 @@ export async function addValidationLogin() {
         } else {
             errorMessage.innerHTML = "<span>Erreur dans l'identifiant ou le mot de passe</span>"
         }
-
-        
     }
 }
 
@@ -53,9 +51,7 @@ export async function addLogout() {
     let newContentPf = `
         <div class="portfolioTitle">
         <h2>Mes Projets</h2>
-		<a href="#modal1" class="open-modal" > 
-            <i class="fa-regular fa-pen-to-square"></i> modifier
-        </a>
+		<a href="#modal1" class="open-modal" ><i class="fa-regular fa-pen-to-square"></i> modifier</a>
         </div>
 		<div class="gallery">
 		</div>
@@ -71,8 +67,8 @@ export async function addLogout() {
         login.addEventListener("click", disconnection)
         header.insertAdjacentHTML ('beforebegin', insertModeEdition)
         portfolio.innerHTML = newContentPf
-
-    console.log(saveToken)
+        
+        console.log(saveToken)
     } 
 }
 
