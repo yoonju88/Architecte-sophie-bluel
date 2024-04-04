@@ -1,45 +1,3 @@
-/*
-const baseUrl = "http://localhost:5678/api/"
-async function uploadMultiple(formData) {
-    try {
-        const postWorks = await fetch(baseUrl + "works", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "multipart/form-data"
-            },
-            body: formData
-        })
-        const postWorksResponse = await postWorks.json()
-        console.log("Success postWork", postWorksResponse)
-    } catch (error) {
-        console.error("failed postWork", error)
-    }
-}
-uploadMultiple()
-
-const formData = new FormData()
-formData.append("title", "title")
-formData.append("category", "categoryId")
-
-const imageUrls = galleries.map(gallery => gallery.imageUrl)
-
-for (const imageUrl of imageUrls) {
-    const Response = await fetch(imageUrl)
-    const blob = await Response.blob()
-    formData.append("images[]", blob)
-    uploadMultiple(formData)
-}
-
-const deleteWorks = await fetch(baseUrl + "works/{id}", {
-        method: "DELETE",
-        headers: {
-            "Accept": ,
-        }
-})
-
-const deleteWorksResponse = await deleteWorks.json()
-*/
 
 export async function displayModal() {
 
@@ -102,7 +60,6 @@ export async function displayModal() {
         
         if (!returnButton) {
             closeModal()
-            
         }
 
         modal2.setAttribute('aria-hidden', 'true')
@@ -136,7 +93,5 @@ export async function displayModal() {
             closeSecondModal(e)
         }   
     }
-
     window.addEventListener('keydown', closeModalByEsc )
 }
-
