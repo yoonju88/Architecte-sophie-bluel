@@ -58,7 +58,7 @@ table {
 /** end reset css**/
 body {
 	max-width: 1140px;
-	margin:auto;
+	margin:0 auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
@@ -67,13 +67,23 @@ body {
 	height : 60px;
 	background-color: black;
 	width: 100%;
+	padding:0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-#modeEdition a {
+#modeEdition a{
  	color : white;
+}
+
+.js-modal, 
+#modeEdition a {
+	text-decoration: none;
+}
+
+#modeEdition i{
+	padding-right: 5px;
 }
 
 .header {
@@ -272,6 +282,7 @@ footer nav ul {
 	align-items: center;
 	justify-content: center;
 	background: rgba(0, 0, 0, 0.5);
+	animation: fadeIn .3s both;
 }
 
 .modalContent,
@@ -283,7 +294,7 @@ footer nav ul {
 	flex-direction: column;
 }
 
-.closeModal {
+.close-1 {
 	margin-left : 97.8%;
 }
 
@@ -295,6 +306,35 @@ footer nav ul {
 	max-height: calc(100vh - 20px);
 	padding: 30px; 
 	border-radius: 2%;
+	animation: slideFromTop .5s both 
+}
+
+
+.modal[aria-hidden="true"]{
+	animation-name : fadeOut;
+}
+.modal[aria-hidden="true"] .modal-wrapper{
+	animation-name : slideToBottom;
+}
+
+@keyframes fadeIn {
+	from { opacity : 0;}
+	to { opacity: 1;}
+}
+
+@keyframes fadeOut {
+	from { opacity : 1;}
+	to { opacity: 0;}
+}
+
+@keyframes slideFromTop {
+	from { transform :translateY(-50px);}
+	to { transform :translateY(0px);}
+}
+
+@keyframes slideToBottom {
+	from { transform :translateY(0px);}
+	to { transform :translateY(50px);}
 }
 
 .modalIcones {
@@ -388,7 +428,7 @@ footer nav ul {
 input[type="file"] {
 	display:none;
 }
-.fileUpload span{
+.fileUpload label{
 	color:#306685;
 	font-size: 14px;
 }
@@ -410,3 +450,4 @@ input[type="file"] {
 	color:white;
 	background: #A7A7A7;
 }
+
