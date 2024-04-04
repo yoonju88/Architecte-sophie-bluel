@@ -166,6 +166,7 @@ li:hover {
 }
 .portfolioTitle a {
 	margin-bottom: 2em;
+	text-decoration: none;
 }
 
 .btn-filters {
@@ -399,7 +400,14 @@ footer nav ul {
 .line {
 	border-top : 1px solid #b3b3b3b3;
 	width : 420px;;
-	margin-top:40px;
+}
+
+.lineModal {
+	margin-top:20px;
+}
+
+.lineModal2 {
+	margin-top:50px;
 }
 
 .sectionAddImage {
@@ -408,6 +416,8 @@ footer nav ul {
 	border-radius: 4px;
 	background:#E8F1F6;
 	margin-top:30px;
+	position:relative;
+	overflow: hidden;
 }
 .sectionAddImage i{
 	font-size: 76px;
@@ -425,13 +435,28 @@ footer nav ul {
 	align-items: center;
 	margin:10px;
 }
+.displayImage {
+	z-index: 1;
+	width:170px;
+	height:170px;
+	position:absolute;
+	overflow: hidden;
+}
+
+.uploadImage {
+	width:100%;
+	height:100%;
+	object-fit: cover;
+}
+
 input[type="file"] {
 	display:none;
 }
+
 .fileUpload label{
 	color:#306685;
 	font-size: 14px;
-}
+}     
 .sectionAddImage span{
 	color:#444444;
 	font-size: 10px;
@@ -446,6 +471,7 @@ input[type="file"] {
 	justify-content: center;
 	flex-direction: column;
 }
+
 .valideImage{
 	color:white;
 	background: #A7A7A7;
