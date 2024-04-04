@@ -69,7 +69,7 @@
 			<h3 id="modalGallery">Galerie photo</h3>
 			<div class="modal-sectionGallery">
 			</div>
-			<div class="line"></div>
+			<div class="line lineModal"></div>
 			<button href="#modal2" class="open-modal2">Ajouter une photo</button>
 		</div>
 	</div>
@@ -81,31 +81,31 @@
 			<a class="return" href="#modal1"><i class="fa-solid fa-arrow-left"></i></a>
 			<a class="closeModal2"><i class="fa-solid fa-xmark"></i></a>
 		</div>
-		<div class="modalContent">
+		<div class="modalContent"> 
 			<h3 id="modalAddGallery">Ajout photo</h3>
-			<form enctype="multipart/form-data">
+			<form id="formModal" action="http://localhost:5678/api/works" method="post" enctype="multipart/form-data">
 				<div class="sectionAddImage">
-					<i class="fa-regular fa-image"></i>
-					<div class="fileUpload">
-						<input type="file" id="file" accept="image/png,image/jpeg"/>
+					<div class="displayImage"></div>
+					<span><i class="fa-regular fa-image"></i></span>
+					<div class="fileUpload">						
+						<input type="file" id="file" name="file" accept="image/png,image/jpeg"/>
 						<label for="file">+ Ajouter Photo</label>
 					</div>
 					<span>jpg.png : 4mo max</span>
 				</div>
 				<div class="zoneInput">
-					<label for="titre">Titre</label>
-					<input type="text" name="titre" id="titre"/>
-					<label for="categorie-choice">Catégorie</label>
-					<input list="categorieList" id="categorie-choice" name="categorie-choice"/>
+					<label for="title">Titre</label>
+					<input type="text" name="title" id="title"/>
+					<label for="category">Catégorie</label>
+					<input list="categorieList" id="category" name="category" onkeydown="showList(event)"/>
 					<datalist id="categorieList">
-						<option value="Tous"></option>
 						<option value="Objets"></option>
 						<option value="Appartements"></option>
 						<option value="Hotels & restaurants"></option>
 					</datalist>
 				</div>
-				<div class="line"></div>
-				<button class="valideImage" href="#modal1" class="js-modal">Valider</button>
+				<div class="line lineModal2"></div>
+				<button class="valideImage" type="submit">Valider</button>
 		</form>
 		</div>
 	</div>
