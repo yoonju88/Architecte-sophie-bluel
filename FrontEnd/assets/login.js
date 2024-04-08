@@ -45,7 +45,7 @@ export async function addLogout() {
     const portfolio = document.getElementById("portfolio")
     let insertModeEdition = `
             <div id ="modeEdition">
-            <a href="#modal1" class="open-modal" ><i class="fa-regular fa-pen-to-square"></i>Mode edition</a>
+            <a href="#modal1" class="open-modal" ><i class="fa-regular fa-pen-to-square"></i> Mode edition</a>
             </div>
         `
     let newContentPf = `

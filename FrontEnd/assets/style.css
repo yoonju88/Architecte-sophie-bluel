@@ -166,6 +166,7 @@ li:hover {
 }
 .portfolioTitle a {
 	margin-bottom: 2em;
+	text-decoration: none;
 }
 
 .btn-filters {
@@ -294,8 +295,17 @@ footer nav ul {
 	flex-direction: column;
 }
 
+.closeModal img,
+.closeModal2 img {
+	width:20px;
+}
+
+.return img{
+	width: 18.5px;
+}
+
 .close-1 {
-	margin-left : 97.8%;
+	margin-left : 97%;
 }
 
 .modal-wrapper {
@@ -308,7 +318,6 @@ footer nav ul {
 	border-radius: 2%;
 	animation: slideFromTop .5s both 
 }
-
 
 .modal[aria-hidden="true"]{
 	animation-name : fadeOut;
@@ -340,10 +349,6 @@ footer nav ul {
 .modalIcones {
 	display:flex;
 	justify-content: space-between;
-}
-
-.fa-xmark, .fa-arrow-left{
-	font-size: 20px;
 }
 
 .modal-wrapper button {
@@ -384,22 +389,29 @@ footer nav ul {
 
 .removeImage {
 	position: absolute;
-	bottom: 78%;
-	right:8%;
+	bottom: 72%;
+	right:10%;
+	background:black;
+	border-radius: 4px;;
 }
 
-.removeImage i {
-	padding:5px 5px;
-	font-size: 9px;
-	border-radius: 3px;
-	background: black;
-	color: white;
+.removeImage img {
+	padding:3px 3px;
+	width:21px;
+	filter:invert(100%);
 }
 
 .line {
 	border-top : 1px solid #b3b3b3b3;
 	width : 420px;;
-	margin-top:40px;
+}
+
+.lineModal {
+	margin-top:20px;
+}
+
+.lineModal2 {
+	margin-top:50px;
 }
 
 .sectionAddImage {
@@ -408,6 +420,8 @@ footer nav ul {
 	border-radius: 4px;
 	background:#E8F1F6;
 	margin-top:30px;
+	position:relative;
+	overflow: hidden;
 }
 .sectionAddImage i{
 	font-size: 76px;
@@ -425,13 +439,28 @@ footer nav ul {
 	align-items: center;
 	margin:10px;
 }
+.displayImage {
+	pointer-events: none;
+	width:170px;
+	height:170px;
+	position:absolute;
+	
+}
+
+.uploadImage {
+	width:100%;
+	height:100%;
+	object-fit: cover;
+}
+
 input[type="file"] {
 	display:none;
 }
+
 .fileUpload label{
 	color:#306685;
 	font-size: 14px;
-}
+}     
 .sectionAddImage span{
 	color:#444444;
 	font-size: 10px;
@@ -446,6 +475,7 @@ input[type="file"] {
 	justify-content: center;
 	flex-direction: column;
 }
+
 .valideImage{
 	color:white;
 	background: #A7A7A7;

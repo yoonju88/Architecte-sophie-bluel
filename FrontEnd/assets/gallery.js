@@ -83,7 +83,7 @@ export async function GenerateModalGallery() {
         for (let i = 0; i < galleries.length; i++) {
          
             const nGalleries = galleries[i]
-            let addIcone = `<a class="removeImage"><i class="fa-solid fa-trash-can"></i></a>`
+            let addIcone = `<a class="removeImage"><img src="./assets/icons/trash-can.png"></a>`
             const figureElement = document.createElement("figure")
             figureElement.dataset.categoryId = nGalleries.categoryId
             figureElement.dataset.userId = nGalleries.userId
