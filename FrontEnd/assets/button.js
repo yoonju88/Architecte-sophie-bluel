@@ -96,6 +96,7 @@ export async function GenerateModalGallery() {
         }
     }
     modalGallery(galleries);
+<<<<<<< HEAD:FrontEnd/assets/button.js
 }
 */
 
@@ -103,3 +104,6 @@ export async function GenerateModalGallery() {
 
 
 
+=======
+    }
+>>>>>>> d6f48e06f692bdc106277ddaf1ad0d2d0ed7fd09:FrontEnd/assets/gallery.js
