@@ -387,7 +387,7 @@ footer nav ul {
 	position: relative;
 }
 
-.removeImage {
+#removeImage {
 	position: absolute;
 	bottom: 72%;
 	right:10%;
@@ -395,7 +395,7 @@ footer nav ul {
 	border-radius: 4px;;
 }
 
-.removeImage img {
+#removeImage img {
 	padding:3px 3px;
 	width:21px;
 	filter:invert(100%);
@@ -441,7 +441,7 @@ footer nav ul {
 }
 .displayImage {
 	pointer-events: none;
-	width:170px;
+	width:185px;
 	height:170px;
 	position:absolute;
 	
