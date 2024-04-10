@@ -372,6 +372,7 @@ footer nav ul {
 	overflow: auto;
 	padding: 40px 0px;
 	width:  420px;
+	height:430px;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-column-gap: 10px;
@@ -387,7 +388,7 @@ footer nav ul {
 	position: relative;
 }
 
-#removeImage {
+.removeImage {
 	position: absolute;
 	bottom: 72%;
 	right:10%;
@@ -395,7 +396,7 @@ footer nav ul {
 	border-radius: 4px;;
 }
 
-#removeImage img {
+.removeImage img {
 	padding:3px 3px;
 	width:21px;
 	filter:invert(100%);
@@ -421,10 +422,7 @@ footer nav ul {
 	background:#E8F1F6;
 	margin-top:30px;
 	position:relative;
-<<<<<<< HEAD
 	overflow: hidden;
-=======
->>>>>>> bf6e2b1d4cd47e42fb859dc47d5a22ead8c29bd0
 }
 .sectionAddImage i{
 	font-size: 76px;
@@ -447,10 +445,6 @@ footer nav ul {
 	width:185px;
 	height:170px;
 	position:absolute;
-<<<<<<< HEAD
-	
-=======
->>>>>>> bf6e2b1d4cd47e42fb859dc47d5a22ead8c29bd0
 }
 
 .uploadImage {

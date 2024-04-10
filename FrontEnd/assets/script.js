@@ -3,9 +3,7 @@ import { addgenerateButtons } from "./button.js"
 
 addValidationLogin()
 addLogout()
-
 addgenerateButtons()
-
 
 const baseUrl = "http://localhost:5678/api/"
 //Récup GET categories
@@ -49,7 +47,7 @@ async function modalGallery(galleries) {
 
     for (let i = 0; i < galleries.length; i++) {
         const nGalleries = galleries[i]
-        let addIcone = `<a id="removeImage"><img src="./assets/icons/trash-can.png"></a>`
+        let addIcone = `<a class="removeImage"><img src="./assets/icons/trash-can.png"></a>`
         const figureElement = document.createElement("figure")
         figureElement.dataset.categoryId = nGalleries.categoryId
         figureElement.dataset.userId = nGalleries.userId
@@ -59,19 +57,11 @@ async function modalGallery(galleries) {
         const imageElement = document.createElement("img")
         imageElement.src = nGalleries.imageUrl
         imageElement.alt = nGalleries.title
+        imageElement.classList.add("modalGalleryImage")
         figureElement.appendChild(imageElement)
     }
 }
 modalGallery(galleries);
-
-// To get arrayCategories.id, if categoryname(category.value) same as arrayCategories.name 
-async function getCategoryIdByName(categoryName) {
-    for (const category of arrayCategories) {
-        if (category.name === categoryName) {
-            return category.id
-        }
-    }
-}
 
 // send imagefile date to backend server
 async function sendImageToBackend(file, title, categoryId) {
@@ -92,7 +82,16 @@ async function sendImageToBackend(file, title, categoryId) {
         body: formData
     })
     const responsePostWorks = await postWorks.json()
+    console.log("postWorks", postWorks.json())
     if (!postWorks.ok) { throw new Error('fail upload file') }
+}
+// To get arrayCategories.id, if categoryname(category.value) same as arrayCategories.name 
+async function getCategoryIdByName(categoryName) {
+    for (const category of arrayCategories) {
+        if (category.name === categoryName) {
+            return category.id
+        }
+    }
 }
 // add image file from second modal
 async function addFormData() {
@@ -132,7 +131,33 @@ async function addFormData() {
 }
 addFormData()
 
-const modalAddPhoto = document.querySelector('.open-modal2')
+const removeImage = document.querySelectorAll(".removeImage")
+removeImage.forEach(removeImage => {
+    removeImage.addEventListener('click', deleteUploadImage)
+})
+
+async function deleteUploadImage(e) {
+    const figure = e.target.closest('figure')
+    if (!figure) { return }
+    const categoryId = figure.dataset.categoryId
+    await deleteWorks(categoryId)
+}
+
+async function deleteWorks(id) {
+    const saveToken = localStorage.getItem("token")
+    if (!saveToken) { return; }
+
+    const deleteWorksResponse = await fetch(`${baseUrl}works/${id}`,{
+        method: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + saveToken,
+            "Accept": "*/*",
+        },
+    })  
+    if (!deleteWorksResponse.ok) { throw new Error('failed') }
+    await deleteWorksResponse.json()
+}
+
 //현재 창이 열려 있는지 추적하기 위한 변수
 let modal = null
 let modal2 = null
@@ -149,6 +174,9 @@ const openModal = function (e) {
     modal.addEventListener('click', closeModal)
     modal.querySelector('.closeModal').addEventListener('click', closeModal)
     modal.querySelector('.modalStop').addEventListener('click', stopPropagation)
+
+    const modalAddPhoto = document.querySelector('.open-modal2')
+    modalAddPhoto.addEventListener('click', openSecondModal)
 }
 
 const openSecondModal = function (e) {
@@ -211,11 +239,10 @@ const closeSecondModal = function (e) {
 const stopPropagation = function (e) {
     e.stopPropagation()
 }
-git 
+
 document.querySelectorAll('.open-modal').forEach(a => {
     a.addEventListener('click', openModal)
 })
-modalAddPhoto.addEventListener('click', openSecondModal)
 
 // function to close all modal by one time  with Escape button
 function closeModalByEsc(e) {
@@ -228,14 +255,3 @@ window.addEventListener('keydown', closeModalByEsc)
 
 
 
-
-
-
-
-const deleteWorks = await fetch(baseUrl + "works/{id}", {
-    method: "DELETE",
-    headers: {
-        "Authorization": "Bearer " + saveToken
-    }
-})
-const deleteWorksResponse = await deleteWorks.json()

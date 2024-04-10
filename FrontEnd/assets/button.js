@@ -71,39 +71,8 @@ export async function addgenerateButtons() {
     }
     generateGallery(galleries);
 }
-/*
-export async function GenerateModalGallery() {
-
-    function modalGallery(galleries) {
-        const modalSectionGallery = document.querySelector(".modal-sectionGallery")
-        // correction error on login page
-        if (!modalSectionGallery) { return }
-
-        for (let i = 0; i < galleries.length; i++) {
-
-            const nGalleries = galleries[i]
-            let addIcone = `<a id="removeImage"><img src="./assets/icons/trash-can.png"></a>`
-            const figureElement = document.createElement("figure")
-            figureElement.dataset.categoryId = nGalleries.categoryId
-            figureElement.dataset.userId = nGalleries.userId
-            modalSectionGallery.appendChild(figureElement)
-            figureElement.innerHTML = addIcone
-
-            const imageElement = document.createElement("img")
-            imageElement.src = nGalleries.imageUrl
-            imageElement.alt = nGalleries.title
-            figureElement.appendChild(imageElement)
-        }
-    }
-    modalGallery(galleries);
-<<<<<<< HEAD:FrontEnd/assets/button.js
-}
-*/
 
 
 
 
 
-=======
-    }
->>>>>>> d6f48e06f692bdc106277ddaf1ad0d2d0ed7fd09:FrontEnd/assets/gallery.js
