@@ -63,6 +63,14 @@ async function modalGallery(galleries) {
 }
 modalGallery(galleries);
 
+// To get arrayCategories.id, if categoryname(category.value) same as arrayCategories.name 
+async function getCategoryIdByName(categoryName) {
+    for (const category of arrayCategories) {
+        if (category.name === categoryName) {
+            return category.id
+        }
+    }
+}
 // send imagefile date to backend server
 async function sendImageToBackend(file, title, categoryId) {
     const saveToken = localStorage.getItem("token")
@@ -85,16 +93,9 @@ async function sendImageToBackend(file, title, categoryId) {
     console.log("postWorks", postWorks.json())
     if (!postWorks.ok) { throw new Error('fail upload file') }
 }
-// To get arrayCategories.id, if categoryname(category.value) same as arrayCategories.name 
-async function getCategoryIdByName(categoryName) {
-    for (const category of arrayCategories) {
-        if (category.name === categoryName) {
-            return category.id
-        }
-    }
-}
+
 // add image file from second modal
-async function addFormData() {
+async function formData() {
     const formModal = document.getElementById("formModal")
     if (!formModal) { console.error("Form not found"); return }
 
@@ -104,6 +105,7 @@ async function addFormData() {
     const title = document.getElementById('title')
     const category = document.getElementById('category')
     const categoryId = await getCategoryIdByName(category.value)
+
 
     // pre-display upload image from input zone 
     inputFile.addEventListener("change", function (e) {
@@ -129,7 +131,7 @@ async function addFormData() {
         closeSecondModal(e)
     });
 }
-addFormData()
+formData()
 
 const removeImage = document.querySelectorAll(".removeImage")
 removeImage.forEach(removeImage => {
@@ -141,6 +143,8 @@ async function deleteUploadImage(e) {
     if (!figure) { return }
     const categoryId = figure.dataset.categoryId
     await deleteWorks(categoryId)
+    console.log(deleteWorks(categoryId))
+    figure.remove()
 }
 
 async function deleteWorks(id) {
@@ -152,10 +156,12 @@ async function deleteWorks(id) {
         headers: {
             "Authorization": "Bearer " + saveToken,
             "Accept": "*/*",
+            "Content-Type" : "application/json"
         },
     })  
     if (!deleteWorksResponse.ok) { throw new Error('failed') }
-    await deleteWorksResponse.json()
+    console.log(deleteWorksResponse)
+    await deleteWorksResponse.text()
 }
 
 //현재 창이 열려 있는지 추적하기 위한 변수
