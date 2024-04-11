@@ -8,7 +8,7 @@ const getGallery = await fetch(baseUrl + "works", { method: "GET" })
 const galleries = await getGallery.json()
 
 export async function addgenerateButtons() {
-    
+
     const btnFilters = document.querySelector(".btn-filters")
     // correction error on login page
     if (!btnFilters) { return }
@@ -51,19 +51,19 @@ export async function addgenerateButtons() {
         const sectionGallery = document.querySelector(".gallery")
         // correction error on login page
         if (!sectionGallery) { return }
-    
+
         for (const gallery of galleries) {
-    
+
             const figureElement = document.createElement("figure")
             figureElement.dataset.categoryId = gallery.categoryId
             figureElement.dataset.userId = gallery.userId
             sectionGallery.appendChild(figureElement)
-    
+
             const imageElement = document.createElement("img")
             imageElement.src = gallery.imageUrl
             imageElement.alt = gallery.title
             figureElement.appendChild(imageElement)
-    
+
             const figcaptionElement = document.createElement("figcaption")
             figcaptionElement.innerText = gallery.title
             figureElement.appendChild(figcaptionElement)
