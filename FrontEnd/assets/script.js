@@ -18,6 +18,7 @@ async function generateGallery(galleries) {
     const sectionGallery = document.querySelector(".gallery")
     // correction error on login page
     if (!sectionGallery) { return }
+    sectionGallery.innerHTML = ""
 
     for (const gallery of galleries) {
 
@@ -122,6 +123,7 @@ async function formData() {
             reader.readAsDataURL(file)
         }
     })
+
     const valideImage = document.querySelector('.valideImage')
     valideImage.addEventListener('click', e => {
         e.preventDefault();
@@ -143,7 +145,7 @@ async function deleteUploadImage(e) {
     if (!figure) { return }
     const categoryId = figure.dataset.categoryId
     await deleteWorks(categoryId)
-    console.log(deleteWorks(categoryId))
+    console.log("delete works", deleteWorks(categoryId))
     figure.remove()
 }
 
@@ -151,18 +153,19 @@ async function deleteWorks(id) {
     const saveToken = localStorage.getItem("token")
     if (!saveToken) { return; }
 
-    const deleteWorksResponse = await fetch(`${baseUrl}works/${id}`,{
+    const deleteWorksResponse = await fetch(`${baseUrl}works/${id}`, {
         method: "DELETE",
         headers: {
             "Authorization": "Bearer " + saveToken,
-            "Accept": "*/*",
-            "Content-Type" : "application/json"
+            "Accept": "*/*"
+            //"Content-Type": "application/json"
         },
-    })  
+    })
     if (!deleteWorksResponse.ok) { throw new Error('failed') }
     console.log(deleteWorksResponse)
-    await deleteWorksResponse.text()
+    //await deleteWorksResponse.text()
 }
+generateGallery(galleries)
 
 //현재 창이 열려 있는지 추적하기 위한 변수
 let modal = null
@@ -258,6 +261,4 @@ function closeModalByEsc(e) {
     }
 }
 window.addEventListener('keydown', closeModalByEsc)
-
-
 
