@@ -25,6 +25,7 @@ async function generateGallery(galleries) {
         const figureElement = document.createElement("figure")
         figureElement.dataset.categoryId = gallery.categoryId
         figureElement.dataset.userId = gallery.userId
+        figureElement.dataset.worksId = gallery.id
         sectionGallery.appendChild(figureElement)
 
         const imageElement = document.createElement("img")
@@ -37,7 +38,6 @@ async function generateGallery(galleries) {
         figureElement.appendChild(figcaptionElement)
     }
 }
-
 generateGallery(galleries);
 
 // display modal Gallery
@@ -52,6 +52,7 @@ async function modalGallery(galleries) {
         const figureElement = document.createElement("figure")
         figureElement.dataset.categoryId = nGalleries.categoryId
         figureElement.dataset.userId = nGalleries.userId
+        figureElement.dataset.worksId = nGalleries.id
         modalSectionGallery.appendChild(figureElement)
         figureElement.innerHTML = addIcone
 
@@ -64,14 +65,6 @@ async function modalGallery(galleries) {
 }
 modalGallery(galleries);
 
-// To get arrayCategories.id, if categoryname(category.value) same as arrayCategories.name 
-async function getCategoryIdByName(categoryName) {
-    for (const category of arrayCategories) {
-        if (category.name === categoryName) {
-            return category.id
-        }
-    }
-}
 // send imagefile date to backend server
 async function sendImageToBackend(file, title, categoryId) {
     const saveToken = localStorage.getItem("token")
@@ -91,23 +84,29 @@ async function sendImageToBackend(file, title, categoryId) {
         body: formData
     })
     const responsePostWorks = await postWorks.json()
-    console.log("postWorks", postWorks.json())
+    console.log(responsePostWorks)
     if (!postWorks.ok) { throw new Error('fail upload file') }
 }
 
+// To get arrayCategories.id, if categoryname(category.value) same as arrayCategories.name 
+function getCategoryIdByName(categoryName) {
+    for (const category of arrayCategories) {
+        if (category.name === categoryName) {
+            return category.id
+        }
+    }
+}
 // add image file from second modal
 async function formData() {
     const formModal = document.getElementById("formModal")
-    if (!formModal) { console.error("Form not found"); return }
+    if (!formModal) {return }
 
     const fileImage = document.querySelector(".displayImage")
     //input에 이미지 경로를 값을 넣으면 이미지를 보여줌
     const inputFile = document.getElementById('file')
     const title = document.getElementById('title')
-    const category = document.getElementById('category')
+    const category = document.getElementById('categorieList')
     const categoryId = await getCategoryIdByName(category.value)
-
-
     // pre-display upload image from input zone 
     inputFile.addEventListener("change", function (e) {
         const file = e.target.files[0]
@@ -125,12 +124,17 @@ async function formData() {
     })
 
     const valideImage = document.querySelector('.valideImage')
-    valideImage.addEventListener('click', e => {
-        e.preventDefault();
+    valideImage.addEventListener('click', async e => {
+                e.preventDefault();
         if (!inputFile.files[0] || !title.value || !category.value) { return }
 
         sendImageToBackend(inputFile.files[0], title.value, categoryId);
         closeSecondModal(e)
+        const getGallery = await fetch(baseUrl + "works", { method: "GET" })
+        const galleries = await getGallery.json()
+        title.value = ""
+        fileImage.innerHTML=""
+        //generateGallery(galleries)
     });
 }
 formData()
@@ -143,9 +147,9 @@ removeImage.forEach(removeImage => {
 async function deleteUploadImage(e) {
     const figure = e.target.closest('figure')
     if (!figure) { return }
-    const categoryId = figure.dataset.categoryId
-    await deleteWorks(categoryId)
-    console.log("delete works", deleteWorks(categoryId))
+    const worksId = figure.dataset.worksId
+    console.log(worksId)
+    await deleteWorks(worksId)
     figure.remove()
 }
 
@@ -162,10 +166,10 @@ async function deleteWorks(id) {
         },
     })
     if (!deleteWorksResponse.ok) { throw new Error('failed') }
-    console.log(deleteWorksResponse)
-    //await deleteWorksResponse.text()
+    return true
 }
-generateGallery(galleries)
+
+//generateGallery(galleries) ?
 
 //현재 창이 열려 있는지 추적하기 위한 변수
 let modal = null

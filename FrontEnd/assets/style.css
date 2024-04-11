@@ -227,11 +227,14 @@ figcaption {
 	flex-direction: column;
 }
 
-#contact input, #logInSection input, .zoneInput input{
+#contact input, #logInSection input, .zoneInput input, #categorieList{
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#categorieList {
+	background: white;
 }
 
 #contact label, #logInSection label, .zoneInput label {
@@ -466,7 +469,7 @@ input[type="file"] {
 	font-size: 10px;
 }
 
-.zoneInput input {
+.zoneInput input, #categorieList {
 	width:420px;
 }
 

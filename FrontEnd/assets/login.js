@@ -27,7 +27,6 @@ export async function addValidationLogin() {
         const userEmail = document.getElementById("loginEmail").value
         const loginPassword = document.getElementById("loginPassword").value
         const result = await getLoginUser(userEmail.trim(), loginPassword.trim())
-        console.log(result)
         
         if (result.token) {
             window.location = "index.html"
@@ -67,8 +66,6 @@ export async function addLogout() {
         login.addEventListener("click", disconnection)
         header.insertAdjacentHTML ('beforebegin', insertModeEdition)
         portfolio.innerHTML = newContentPf
-        
-        console.log(saveToken)
     } 
 }
 

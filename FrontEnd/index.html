@@ -98,12 +98,12 @@
 					<label for="title">Titre</label>
 					<input type="text" name="title" id="title"/>
 					<label for="category">Catégorie</label>
-					<input list="categorieList" id="category" name="category" onkeydown="showList(event)"/>
-					<datalist id="categorieList">
-						<option value="Objets"></option>
-						<option value="Appartements"></option>
-						<option value="Hotels & restaurants"></option>
-					</datalist>
+					<!-- <input list="categorieList" id="category" name="category" /> -->
+					<select id="categorieList">
+						<option value="Objets">Objets</option>
+						<option value="Appartements">Appartements</option>
+						<option value="Hotels & restaurants">Hotels & restaurants</option>
+					</select>
 				</div>
 				<div class="line lineModal2"></div>
 				<button class="valideImage" type="submit" href="index.html">Valider</button>
