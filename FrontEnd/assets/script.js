@@ -1,6 +1,5 @@
 import { addValidationLogin, addLogout } from "./login.js"
 import { addgenerateButtons } from "./button.js"
-
 addValidationLogin()
 addLogout()
 addgenerateButtons()
@@ -21,7 +20,6 @@ async function generateGallery(galleries) {
     sectionGallery.innerHTML = ""
 
     for (const gallery of galleries) {
-
         const figureElement = document.createElement("figure")
         figureElement.dataset.categoryId = gallery.categoryId
         figureElement.dataset.userId = gallery.userId
@@ -45,6 +43,7 @@ async function modalGallery(galleries) {
     const modalSectionGallery = document.querySelector(".modal-sectionGallery")
     // correction error on login page
     if (!modalSectionGallery) { return }
+    modalSectionGallery.innerHTML = ""
 
     for (let i = 0; i < galleries.length; i++) {
         const nGalleries = galleries[i]
@@ -74,7 +73,6 @@ async function sendImageToBackend(file, title, categoryId) {
     formData.append('image', file)
     formData.append('title', title)
     formData.append('category', categoryId)
-    console.log(formData)
 
     const postWorks = await fetch(baseUrl + "works", {
         method: "POST",
@@ -86,7 +84,15 @@ async function sendImageToBackend(file, title, categoryId) {
     const responsePostWorks = await postWorks.json()
     console.log(responsePostWorks)
     if (!postWorks.ok) { throw new Error('fail upload file') }
+    // to regeneration gallery and modal gallery after add image from second modal
+    const getGallery = await fetch(baseUrl + "works", { method: "GET" })
+    const galleries = await getGallery.json()
+    await generateGallery(galleries)
+    await modalGallery(galleries)
+    await removeImageButton()
 }
+
+
 
 // To get arrayCategories.id, if categoryname(category.value) same as arrayCategories.name 
 function getCategoryIdByName(categoryName) {
@@ -99,7 +105,7 @@ function getCategoryIdByName(categoryName) {
 // add image file from second modal
 async function formData() {
     const formModal = document.getElementById("formModal")
-    if (!formModal) {return }
+    if (!formModal) { return }
 
     const fileImage = document.querySelector(".displayImage")
     //input에 이미지 경로를 값을 넣으면 이미지를 보여줌
@@ -125,24 +131,23 @@ async function formData() {
 
     const valideImage = document.querySelector('.valideImage')
     valideImage.addEventListener('click', async e => {
-                e.preventDefault();
+        e.preventDefault();
         if (!inputFile.files[0] || !title.value || !category.value) { return }
-
         sendImageToBackend(inputFile.files[0], title.value, categoryId);
         closeSecondModal(e)
-        const getGallery = await fetch(baseUrl + "works", { method: "GET" })
-        const galleries = await getGallery.json()
         title.value = ""
-        fileImage.innerHTML=""
-        //generateGallery(galleries)
+        fileImage.innerHTML = ""
     });
 }
 formData()
 
-const removeImage = document.querySelectorAll(".removeImage")
-removeImage.forEach(removeImage => {
-    removeImage.addEventListener('click', deleteUploadImage)
-})
+function removeImageButton() {
+    const removeImage = document.querySelectorAll(".removeImage")
+    removeImage.forEach(removeImage => {
+        removeImage.addEventListener('click', deleteUploadImage)
+    })
+}
+removeImageButton()
 
 async function deleteUploadImage(e) {
     const figure = e.target.closest('figure')
@@ -151,6 +156,10 @@ async function deleteUploadImage(e) {
     console.log(worksId)
     await deleteWorks(worksId)
     figure.remove()
+    const getGallery = await fetch(baseUrl + "works", { method: "GET" })
+    const galleries = await getGallery.json()
+    generateGallery(galleries)
+
 }
 
 async function deleteWorks(id) {
