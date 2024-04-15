@@ -12,6 +12,7 @@ const arrayCategories = await getCategories.json()
 //Récup GET works
 const getGallery = await fetch(baseUrl + "works", { method: "GET" })
 const galleries = await getGallery.json()
+console.log(galleries)
 
 async function generateGallery(galleries, targetGallery) {
     const sectionGallery = document.querySelector(targetGallery)
@@ -20,9 +21,9 @@ async function generateGallery(galleries, targetGallery) {
 
     for (const gallery of galleries) {
         const figureElement = document.createElement("figure")
-        figureElement.dataset.categoryId = gallery.categoryId
-        figureElement.dataset.userId = gallery.userId
-        figureElement.dataset.worksId = gallery.id
+        figureElement.dataset.categoryId = gallery.categoryId // to be change depends on category name
+        figureElement.dataset.userId = gallery.userId // always 1
+        figureElement.dataset.worksId = gallery.id // number of post image
         sectionGallery.appendChild(figureElement)
 
         const imageElement = document.createElement("img")
@@ -50,34 +51,40 @@ async function generateGallery(galleries, targetGallery) {
 generateGallery(galleries, ".gallery")
 generateGallery(galleries, ".modal-sectionGallery")
 
-/*
 function generateButtons() {
     const mapCategory = galleries.map(gallery => gallery.category)
     const btnFilters = document.querySelector(".btn-filters")
     if (!btnFilters) { return }
     
-    arrayCategories.forEach(category => {
-        const button = document.createElement("button");
+    for (let i = 0; i < arrayCategories.length + 1; i++) {
+        const categoryLists = arrayCategories.find(category => category.id === i)
+        const button = document.createElement("button")
         btnFilters.appendChild(button)
-        if(!category) {
+
+        if (!categoryLists) {
             button.textContent = "tous"
             button.addEventListener("click", function () {
-                const filterBtnAll = galleries.every(gallery => mapCategory.includes(gallery));
-                console.log(filterBtnAll);
-            });
+                const filterBtnAll = galleries.filter(function (gallery) {
+                    return mapCategory
+                })
+                generateGallery(filterBtnAll, ".gallery")
+                console.log("display all", filterBtnAll)
+            })
         } else {
-            button.textContent = category.name;
+            button.textContent = categoryLists.name
             button.addEventListener("click", function () {
-                const categoryId = category.id;
-                const FilterButton = galleries.filter(gallery => gallery.category.id === categoryId);
-                console.log(FilterButton);
-            });
+                let categoryId = categoryLists.id
+                const FilterButton = galleries.filter(function (gallery) {
+                    return gallery.category.id === categoryId
+                })
+                generateGallery(FilterButton, ".gallery")
+                console.log("filter image", FilterButton)
+            })
         }
-    })
+    }
 }
 generateButtons()
 
-*/
 // send imagefile date to backend server
 async function sendImageToBackend(file, title, categoryId) {
     const saveToken = localStorage.getItem("token")
@@ -87,6 +94,7 @@ async function sendImageToBackend(file, title, categoryId) {
     formData.append('image', file)
     formData.append('title', title)
     formData.append('category', categoryId)
+    console.log(formData )
 
     const postWorks = await fetch(baseUrl + "works", {
         method: "POST",
@@ -107,24 +115,23 @@ async function sendImageToBackend(file, title, categoryId) {
 }
 
 // To get arrayCategories.id, if categoryname(category.value) same as arrayCategories.name 
-function getCategoryIdByName(categoryName) {
-    for (const category of arrayCategories) {
-        if (category.name === categoryName) {
-            return category.id
-        }
-    }
+async function getCategoryIdByName(categoryName) {
+   const selectionOption = arrayCategories.find(category => category.name === categoryName)
+        if (selectionOption) {
+            return selectionOption.id
+        } else {return}
 }
+
 // add image file from second modal
-async function formData() {
+async function inputData() {
     const formModal = document.getElementById("formModal")
     if (!formModal) { return }
-
     const fileImage = document.querySelector(".displayImage")
     //input에 이미지 경로를 값을 넣으면 이미지를 보여줌
     const inputFile = document.getElementById('file')
     const title = document.getElementById('title')
     const category = document.getElementById('categorieList')
-    const categoryId = await getCategoryIdByName(category.value)
+    
     // pre-display upload image from input zone 
     inputFile.addEventListener("change", function (e) {
         const file = e.target.files[0]
@@ -145,13 +152,14 @@ async function formData() {
     valideImage.addEventListener('click', async e => {
         e.preventDefault();
         if (!inputFile.files[0] || !title.value || !category.value) { return }
+        const categoryId = await getCategoryIdByName(category.value)
         sendImageToBackend(inputFile.files[0], title.value, categoryId);
         closeSecondModal(e)
         title.value = ""
         fileImage.innerHTML = ""
     });
 }
-formData()
+inputData()
 
 function removeImageButton() {
     const removeImage = document.querySelectorAll(".removeImage")
