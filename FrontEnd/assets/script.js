@@ -1,8 +1,8 @@
 import { addValidationLogin, addLogout } from "./login.js"
-import { addgenerateButtons } from "./button.js"
+//import { addgenerateButtons } from "./button.js"
 addValidationLogin()
 addLogout()
-addgenerateButtons()
+//addgenerateButtons()
 
 const baseUrl = "http://localhost:5678/api/"
 //Récup GET categories
@@ -13,9 +13,8 @@ const arrayCategories = await getCategories.json()
 const getGallery = await fetch(baseUrl + "works", { method: "GET" })
 const galleries = await getGallery.json()
 
-async function generateGallery(galleries) {
-    const sectionGallery = document.querySelector(".gallery")
-    // correction error on login page
+async function generateGallery(galleries, targetGallery) {
+    const sectionGallery = document.querySelector(targetGallery)
     if (!sectionGallery) { return }
     sectionGallery.innerHTML = ""
 
@@ -34,36 +33,51 @@ async function generateGallery(galleries) {
         const figcaptionElement = document.createElement("figcaption")
         figcaptionElement.innerText = gallery.title
         figureElement.appendChild(figcaptionElement)
+
+        if (targetGallery === ".modal-sectionGallery") {
+            const removeIcon = document.createElement("a");
+            removeIcon.classList.add("removeImage");
+            const removeIconImage = document.createElement("img");
+            removeIconImage.src = "./assets/icons/trash-can.png";
+            removeIcon.appendChild(removeIconImage);
+            figureElement.appendChild(removeIcon);
+            imageElement.classList.add("modalGalleryImage");
+            figcaptionElement.style.display = 'none';
+            removeImageButton()
+        }
     }
 }
-generateGallery(galleries);
+generateGallery(galleries, ".gallery")
+generateGallery(galleries, ".modal-sectionGallery")
 
-// display modal Gallery
-async function modalGallery(galleries) {
-    const modalSectionGallery = document.querySelector(".modal-sectionGallery")
-    // correction error on login page
-    if (!modalSectionGallery) { return }
-    modalSectionGallery.innerHTML = ""
-
-    for (let i = 0; i < galleries.length; i++) {
-        const nGalleries = galleries[i]
-        let addIcone = `<a class="removeImage"><img src="./assets/icons/trash-can.png"></a>`
-        const figureElement = document.createElement("figure")
-        figureElement.dataset.categoryId = nGalleries.categoryId
-        figureElement.dataset.userId = nGalleries.userId
-        figureElement.dataset.worksId = nGalleries.id
-        modalSectionGallery.appendChild(figureElement)
-        figureElement.innerHTML = addIcone
-
-        const imageElement = document.createElement("img")
-        imageElement.src = nGalleries.imageUrl
-        imageElement.alt = nGalleries.title
-        imageElement.classList.add("modalGalleryImage")
-        figureElement.appendChild(imageElement)
-    }
+/*
+function generateButtons() {
+    const mapCategory = galleries.map(gallery => gallery.category)
+    const btnFilters = document.querySelector(".btn-filters")
+    if (!btnFilters) { return }
+    
+    arrayCategories.forEach(category => {
+        const button = document.createElement("button");
+        btnFilters.appendChild(button)
+        if(!category) {
+            button.textContent = "tous"
+            button.addEventListener("click", function () {
+                const filterBtnAll = galleries.every(gallery => mapCategory.includes(gallery));
+                console.log(filterBtnAll);
+            });
+        } else {
+            button.textContent = category.name;
+            button.addEventListener("click", function () {
+                const categoryId = category.id;
+                const FilterButton = galleries.filter(gallery => gallery.category.id === categoryId);
+                console.log(FilterButton);
+            });
+        }
+    })
 }
-modalGallery(galleries);
+generateButtons()
 
+*/
 // send imagefile date to backend server
 async function sendImageToBackend(file, title, categoryId) {
     const saveToken = localStorage.getItem("token")
@@ -84,15 +98,13 @@ async function sendImageToBackend(file, title, categoryId) {
     const responsePostWorks = await postWorks.json()
     console.log(responsePostWorks)
     if (!postWorks.ok) { throw new Error('fail upload file') }
-    // to regeneration gallery and modal gallery after add image from second modal
+
+    //to regeneration gallery and modal gallery after add image from second modal
     const getGallery = await fetch(baseUrl + "works", { method: "GET" })
     const galleries = await getGallery.json()
-    await generateGallery(galleries)
-    await modalGallery(galleries)
-    await removeImageButton()
+    generateGallery(galleries, ".gallery")
+    generateGallery(galleries, ".modal-sectionGallery")
 }
-
-
 
 // To get arrayCategories.id, if categoryname(category.value) same as arrayCategories.name 
 function getCategoryIdByName(categoryName) {
@@ -153,13 +165,12 @@ async function deleteUploadImage(e) {
     const figure = e.target.closest('figure')
     if (!figure) { return }
     const worksId = figure.dataset.worksId
-    console.log(worksId)
     await deleteWorks(worksId)
-    figure.remove()
+
     const getGallery = await fetch(baseUrl + "works", { method: "GET" })
     const galleries = await getGallery.json()
-    generateGallery(galleries)
-
+    generateGallery(galleries, ".gallery")
+    generateGallery(galleries, ".modal-sectionGallery")
 }
 
 async function deleteWorks(id) {
@@ -170,15 +181,12 @@ async function deleteWorks(id) {
         method: "DELETE",
         headers: {
             "Authorization": "Bearer " + saveToken,
-            "Accept": "*/*"
-            //"Content-Type": "application/json"
+            "Accept": "*/*",
         },
     })
     if (!deleteWorksResponse.ok) { throw new Error('failed') }
     return true
 }
-
-//generateGallery(galleries) ?
 
 //현재 창이 열려 있는지 추적하기 위한 변수
 let modal = null
@@ -265,7 +273,6 @@ const stopPropagation = function (e) {
 document.querySelectorAll('.open-modal').forEach(a => {
     a.addEventListener('click', openModal)
 })
-
 // function to close all modal by one time  with Escape button
 function closeModalByEsc(e) {
     if (e.key === "Escape" || e.key === "Esc") {
