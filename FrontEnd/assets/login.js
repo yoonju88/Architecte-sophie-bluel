@@ -26,8 +26,7 @@ export async function addValidationLogin() {
 
         const userEmail = document.getElementById("loginEmail").value
         const loginPassword = document.getElementById("loginPassword").value
-        const result = await getLoginUser(userEmail.trim(), loginPassword.trim())
-        
+        const result = await getLoginUser(userEmail.trim(), loginPassword.trim())        
         if (result.token) {
             window.location = "index.html"
             localStorage.setItem("token", result.token)

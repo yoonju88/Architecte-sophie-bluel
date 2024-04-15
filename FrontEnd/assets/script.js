@@ -1,8 +1,7 @@
 import { addValidationLogin, addLogout } from "./login.js"
-//import { addgenerateButtons } from "./button.js"
 addValidationLogin()
 addLogout()
-//addgenerateButtons()
+
 
 const baseUrl = "http://localhost:5678/api/"
 //Récup GET categories
@@ -12,7 +11,6 @@ const arrayCategories = await getCategories.json()
 //Récup GET works
 const getGallery = await fetch(baseUrl + "works", { method: "GET" })
 const galleries = await getGallery.json()
-console.log(galleries)
 
 async function generateGallery(galleries, targetGallery) {
     const sectionGallery = document.querySelector(targetGallery)
@@ -21,9 +19,9 @@ async function generateGallery(galleries, targetGallery) {
 
     for (const gallery of galleries) {
         const figureElement = document.createElement("figure")
-        figureElement.dataset.categoryId = gallery.categoryId // to be change depends on category name
-        figureElement.dataset.userId = gallery.userId // always 1
-        figureElement.dataset.worksId = gallery.id // number of post image
+        figureElement.dataset.categoryId = gallery.categoryId 
+        figureElement.dataset.userId = gallery.userId 
+        figureElement.dataset.worksId = gallery.id 
         sectionGallery.appendChild(figureElement)
 
         const imageElement = document.createElement("img")
@@ -55,7 +53,7 @@ function generateButtons() {
     const mapCategory = galleries.map(gallery => gallery.category)
     const btnFilters = document.querySelector(".btn-filters")
     if (!btnFilters) { return }
-    
+
     for (let i = 0; i < arrayCategories.length + 1; i++) {
         const categoryLists = arrayCategories.find(category => category.id === i)
         const button = document.createElement("button")
@@ -68,7 +66,6 @@ function generateButtons() {
                     return mapCategory
                 })
                 generateGallery(filterBtnAll, ".gallery")
-                console.log("display all", filterBtnAll)
             })
         } else {
             button.textContent = categoryLists.name
@@ -78,7 +75,6 @@ function generateButtons() {
                     return gallery.category.id === categoryId
                 })
                 generateGallery(FilterButton, ".gallery")
-                console.log("filter image", FilterButton)
             })
         }
     }
@@ -94,7 +90,6 @@ async function sendImageToBackend(file, title, categoryId) {
     formData.append('image', file)
     formData.append('title', title)
     formData.append('category', categoryId)
-    console.log(formData )
 
     const postWorks = await fetch(baseUrl + "works", {
         method: "POST",
@@ -116,10 +111,10 @@ async function sendImageToBackend(file, title, categoryId) {
 
 // To get arrayCategories.id, if categoryname(category.value) same as arrayCategories.name 
 async function getCategoryIdByName(categoryName) {
-   const selectionOption = arrayCategories.find(category => category.name === categoryName)
-        if (selectionOption) {
-            return selectionOption.id
-        } else {return}
+    const selectionOption = arrayCategories.find(category => category.name === categoryName)
+    if (selectionOption) {
+        return selectionOption.id
+    } else { return }
 }
 
 // add image file from second modal
@@ -131,7 +126,7 @@ async function inputData() {
     const inputFile = document.getElementById('file')
     const title = document.getElementById('title')
     const category = document.getElementById('categorieList')
-    
+
     // pre-display upload image from input zone 
     inputFile.addEventListener("change", function (e) {
         const file = e.target.files[0]
@@ -157,7 +152,7 @@ async function inputData() {
         closeSecondModal(e)
         title.value = ""
         fileImage.innerHTML = ""
-    });
+    })
 }
 inputData()
 
@@ -199,79 +194,75 @@ async function deleteWorks(id) {
 //현재 창이 열려 있는지 추적하기 위한 변수
 let modal = null
 let modal2 = null
+
 const openModal = function (e) {
     e.preventDefault()
-    // target = selection #modal1 의 속성을 가져옴
-    const target = document.querySelector(e.target.getAttribute('href'))
-    // to open modal
-    target.style.display = null
-    target.removeAttribute('aria-hidden')
-    target.setAttribute('aria-modal', 'true')
-    modal = target
-
-    modal.addEventListener('click', closeModal)
-    modal.querySelector('.closeModal').addEventListener('click', closeModal)
-    modal.querySelector('.modalStop').addEventListener('click', stopPropagation)
-
-    const modalAddPhoto = document.querySelector('.open-modal2')
-    modalAddPhoto.addEventListener('click', openSecondModal)
+     // this.getAttribute('href') === #modal
+    // target === entire content #modal
+    const target = document.querySelector(this.getAttribute('href'))
+    showModal(target, 'modal')
 }
 
 const openSecondModal = function (e) {
     e.preventDefault()
-    const targetModal2 = document.querySelector(this.getAttribute('href'))
-    targetModal2.style.display = null
-    targetModal2.removeAttribute('aria-hidden')
-    targetModal2.setAttribute('aria-modal', 'true')
-    modal2 = targetModal2
+    const target = document.querySelector(this.getAttribute('href'))
+    showModal(target, 'modal2')
+};
 
-    modal2.addEventListener('click', closeSecondModal)
-    modal2.querySelector('.closeModal2').addEventListener('click', closeSecondModal)
-    modal2.querySelector('.modalStop').addEventListener('click', stopPropagation)
-    modal2.querySelector('.return').addEventListener('click', closeSecondModal)
+const showModal = function (target, modalN) {
+    target.style.display = null;
+    target.removeAttribute('aria-hidden');
+    target.setAttribute('aria-modal', 'true');
+
+    if (modalN === 'modal') {
+        modal = target;
+        modal.addEventListener('click', closeModal);
+        modal.querySelector('.closeModal').addEventListener('click', closeModal);
+        modal.querySelector('.modalStop').addEventListener('click', stopPropagation);
+        const modalAddPhoto = document.querySelector('.open-modal2');
+        modalAddPhoto.addEventListener('click', openSecondModal);
+    } else if (modalN === 'modal2') {
+        modal2 = target;
+        modal2.addEventListener('click', closeSecondModal);
+        modal2.querySelector('.closeModal2').addEventListener('click', closeSecondModal);
+        modal2.querySelector('.modalStop').addEventListener('click', stopPropagation);
+        modal2.querySelector('.return').addEventListener('click', closeSecondModal);
+    }
 }
 
-const closeModal = function (e) {
-    e = e || window.event;
-    if (modal === null) return
-    e.preventDefault()
+function offModal(targetModal) {
+    if (!targetModal) return
+    targetModal.setAttribute('aria-hidden', 'true')
+    targetModal.removeAttribute('aria-modal')
+    targetModal.querySelector('.modalStop').removeEventListener('click', stopPropagation)
+    
+    const hideModal = function () {
+        targetModal.style.display = "none"
+        targetModal.removeEventListener('animationend', hideModal)
+        targetModal = null
+        
+    }
+    targetModal.addEventListener('animationend', hideModal)
+}
 
-    modal.setAttribute('aria-hidden', 'true')
-    modal.removeAttribute('aria-modal')
+const closeModal = function (e) { 
+    e = e || window.event;
+    e.preventDefault()
+    offModal(modal)
     modal.removeEventListener('click', closeModal)
     modal.querySelector(".closeModal").removeEventListener('click', closeModal)
-    modal.querySelector('.modalStop').removeEventListener('click', stopPropagation)
-    const hideModal = function () {
-        modal.style.display = "none"
-        modal.removeEventListener('animationend', hideModal)
-        modal = null
-    }
-    modal.addEventListener('animationend', hideModal)
 }
 
-const closeSecondModal = function (e) {
+const closeSecondModal = function (e) { 
     e = e || window.event;
-    if (modal2 === null) return
-    const returnButton = e.target.closest('.return') // verifie if i clicked 'return'
     e.preventDefault()
+    const returnButton = e.target.closest('.return')
+    if (!returnButton) { closeModal(e)}
 
-    if (!returnButton) {
-        closeModal()
-    }
-
-    modal2.setAttribute('aria-hidden', 'true')
-    modal2.removeAttribute('aria-modal')
-
+    offModal(modal2)
     modal2.removeEventListener('click', closeSecondModal)
     modal2.querySelector('.closeModal2').removeEventListener('click', closeSecondModal)
-    modal2.querySelector('.modalStop').removeEventListener('click', stopPropagation)
     modal2.querySelector('.return').removeEventListener('click', closeSecondModal)
-    const hideModal2 = function () {
-        modal2.style.display = "none"
-        modal2.removeEventListener('animationend', hideModal2)
-        modal2 = null
-    }
-    modal2.addEventListener('animationend', hideModal2)
 }
 
 const stopPropagation = function (e) {
@@ -288,5 +279,5 @@ function closeModalByEsc(e) {
         closeSecondModal(e)
     }
 }
-window.addEventListener('keydown', closeModalByEsc)
 
+window.addEventListener('keydown', closeModalByEsc)
