@@ -2,7 +2,6 @@ import { addValidationLogin, addLogout } from "./login.js"
 addValidationLogin()
 addLogout()
 
-
 const baseUrl = "http://localhost:5678/api/"
 //Récup GET categories
 const getCategories = await fetch(baseUrl + "categories", { method: "GET" })
@@ -19,9 +18,9 @@ async function generateGallery(galleries, targetGallery) {
 
     for (const gallery of galleries) {
         const figureElement = document.createElement("figure")
-        figureElement.dataset.categoryId = gallery.categoryId 
-        figureElement.dataset.userId = gallery.userId 
-        figureElement.dataset.worksId = gallery.id 
+        figureElement.dataset.categoryId = gallery.categoryId
+        figureElement.dataset.userId = gallery.userId
+        figureElement.dataset.worksId = gallery.id
         sectionGallery.appendChild(figureElement)
 
         const imageElement = document.createElement("img")
@@ -50,7 +49,6 @@ generateGallery(galleries, ".gallery")
 generateGallery(galleries, ".modal-sectionGallery")
 
 function generateButtons() {
-    const mapCategory = galleries.map(gallery => gallery.category)
     const btnFilters = document.querySelector(".btn-filters")
     if (!btnFilters) { return }
 
@@ -62,19 +60,16 @@ function generateButtons() {
         if (!categoryLists) {
             button.textContent = "tous"
             button.addEventListener("click", function () {
-                const filterBtnAll = galleries.filter(function (gallery) {
-                    return mapCategory
-                })
-                generateGallery(filterBtnAll, ".gallery")
+                const displayAllGallery = galleries;
+                generateGallery(displayAllGallery, ".gallery")
             })
         } else {
             button.textContent = categoryLists.name
             button.addEventListener("click", function () {
-                let categoryId = categoryLists.id
-                const FilterButton = galleries.filter(function (gallery) {
-                    return gallery.category.id === categoryId
-                })
+               let categoryId = categoryLists ? categoryLists.id : null;
+                const FilterButton = categoryId ? galleries.filter(gallery => gallery.category.id === categoryId) : galleries;
                 generateGallery(FilterButton, ".gallery")
+                console.log(FilterButton)
             })
         }
     }
@@ -197,7 +192,7 @@ let modal2 = null
 
 const openModal = function (e) {
     e.preventDefault()
-     // this.getAttribute('href') === #modal
+    // this.getAttribute('href') === #modal
     // target === entire content #modal
     const target = document.querySelector(this.getAttribute('href'))
     showModal(target, 'modal')
@@ -235,17 +230,17 @@ function offModal(targetModal) {
     targetModal.setAttribute('aria-hidden', 'true')
     targetModal.removeAttribute('aria-modal')
     targetModal.querySelector('.modalStop').removeEventListener('click', stopPropagation)
-    
+
     const hideModal = function () {
         targetModal.style.display = "none"
         targetModal.removeEventListener('animationend', hideModal)
         targetModal = null
-        
+
     }
     targetModal.addEventListener('animationend', hideModal)
 }
 
-const closeModal = function (e) { 
+const closeModal = function (e) {
     e = e || window.event;
     e.preventDefault()
     offModal(modal)
@@ -253,11 +248,11 @@ const closeModal = function (e) {
     modal.querySelector(".closeModal").removeEventListener('click', closeModal)
 }
 
-const closeSecondModal = function (e) { 
+const closeSecondModal = function (e) {
     e = e || window.event;
     e.preventDefault()
     const returnButton = e.target.closest('.return')
-    if (!returnButton) { closeModal(e)}
+    if (!returnButton) { closeModal(e) }
 
     offModal(modal2)
     modal2.removeEventListener('click', closeSecondModal)
