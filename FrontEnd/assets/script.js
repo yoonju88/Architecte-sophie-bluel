@@ -96,12 +96,14 @@ async function sendImageToBackend(file, title, categoryId) {
     const responsePostWorks = await postWorks.json()
     console.log(responsePostWorks)
     if (!postWorks.ok) { throw new Error('fail upload file') }
+}
 
-    //to regeneration gallery and modal gallery after add image from second modal
-    const getGallery = await fetch(baseUrl + "works", { method: "GET" })
-    const galleries = await getGallery.json()
-    generateGallery(galleries, ".gallery")
-    generateGallery(galleries, ".modal-sectionGallery")
+async function regerateGallery () {
+//to regeneration gallery and modal gallery after add image from second modal
+const getGallery = await fetch(baseUrl + "works", { method: "GET" })
+const galleries = await getGallery.json()
+generateGallery(galleries, ".gallery")
+generateGallery(galleries, ".modal-sectionGallery")
 }
 
 // To get arrayCategories.id, if categoryname(category.value) same as arrayCategories.name 
@@ -143,7 +145,8 @@ async function inputData() {
         e.preventDefault();
         if (!inputFile.files[0] || !title.value || !category.value) { return }
         const categoryId = await getCategoryIdByName(category.value)
-        sendImageToBackend(inputFile.files[0], title.value, categoryId);
+        sendImageToBackend(inputFile.files[0], title.value, categoryId)
+        await regerateGallery ()
         closeSecondModal(e)
         title.value = ""
         fileImage.innerHTML = ""
