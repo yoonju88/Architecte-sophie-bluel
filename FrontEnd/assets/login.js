@@ -39,7 +39,7 @@ export async function addValidationLogin() {
 export async function addLogout() {
     const login = document.querySelector(".login")
     const saveToken = localStorage.getItem("token")
-    const  header = document.querySelector("header")
+    const  body = document.querySelector("body")
     const portfolio = document.getElementById("portfolio")
     let insertModeEdition = `
             <div id ="modeEdition">
@@ -63,7 +63,7 @@ export async function addLogout() {
     if (saveToken) {
         login.innerHTML="<li>logout</li>"
         login.addEventListener("click", disconnection)
-        header.insertAdjacentHTML ('beforebegin', insertModeEdition)
+        body.insertAdjacentHTML ('beforebegin', insertModeEdition)
         portfolio.innerHTML = newContentPf
     } 
 }
