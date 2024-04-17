@@ -16,6 +16,7 @@ async function generateGallery(galleries, targetGallery) {
     if (!sectionGallery) { return }
     sectionGallery.innerHTML = ""
 
+    // 
     for (const gallery of galleries) {
         const figureElement = document.createElement("figure")
         figureElement.dataset.categoryId = gallery.categoryId
@@ -58,18 +59,17 @@ function generateButtons() {
         btnFilters.appendChild(button)
 
         if (!categoryLists) {
-            button.textContent = "tous"
+            button.textContent = "Tous"
             button.addEventListener("click", function () {
-                const displayAllGallery = galleries;
+                const displayAllGallery = galleries
                 generateGallery(displayAllGallery, ".gallery")
             })
         } else {
             button.textContent = categoryLists.name
             button.addEventListener("click", function () {
-               let categoryId = categoryLists ? categoryLists.id : null;
+                let categoryId = categoryLists ? categoryLists.id : null;
                 const FilterButton = categoryId ? galleries.filter(gallery => gallery.category.id === categoryId) : galleries;
                 generateGallery(FilterButton, ".gallery")
-                console.log(FilterButton)
             })
         }
     }
@@ -93,8 +93,7 @@ async function sendImageToBackend(file, title, categoryId) {
         },
         body: formData
     })
-    const responsePostWorks = await postWorks.json()
-    console.log(responsePostWorks)
+    await postWorks.json()
     if (!postWorks.ok) { throw new Error('fail upload file') }
 }
 
