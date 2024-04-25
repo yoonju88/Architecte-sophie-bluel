@@ -12,7 +12,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script src="assets/script.js" defer type="module"></script>
+	<script src="assets/script.js" type="module" ></script>
 </head>
 <body>
 <header>
@@ -22,14 +22,14 @@
 			<ul>
 				<li>projets</li>
 				<li>contact</li>
-				<a class="login" href="login.html"><li>login</li></a>
+				<li><a class="login" href="login.html">login</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
 	</div>
 </header>
 <main>
-	<section id="introduction">
+	<div id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
 		</figure>
@@ -39,7 +39,7 @@
 			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
-	</section>
+	</div>
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
 		<div class="btn-filters">
@@ -62,24 +62,24 @@
 	</section>
 </main> 
 <!-- first modal -->
-<aside id ="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby ="modalGallery" style="display:none"> 
+<aside id ="modal1" class="modal" aria-hidden="true" aria-labelledby ="modalGallery" style="display:none"> 
     <div class="modal-wrapper modalStop">
-		<a class="closeModal close-1"><img src="assets/icons/xmark-solid.png"></a>
+		<a class="closeModal close-1"><img src="assets/icons/xmark-solid.png" alt="Close icone"></a>
 		<div class="modalContent">
 			<h3 id="modalGallery">Galerie photo</h3>
 			<div class="modal-sectionGallery">
 			</div>
 			<div class="line lineModal"></div>
-			<button href="#modal2" class="open-modal2">Ajouter une photo</button>
+			<a href="#modal2" class="open-modal2">Ajouter une photo</a>
 		</div>
 	</div>
   </aside>
 <!-- secone modal  -->
-<aside id ="modal2" class="modal" aria-hidden="true" role="dialog" aria-labelledby ="modalAddGallery" style="display:none"> 
+<aside id ="modal2" class="modal" aria-hidden="true" aria-labelledby ="modalAddGallery" style="display:none"> 
 	<div class="modal-wrapper modalStop">
 		<div class="modalIcones">
-			<a class="return" href="#modal1"><img src="assets/icons/angle-left-solid.png"></a>
-			<a class="closeModal2"><img src="assets/icons/xmark-solid.png"></a>
+			<a class="return" href="#modal1"><img src="assets/icons/angle-left-solid.png" alt="Return icone"></a>
+			<a class="closeModal2"><img src="assets/icons/xmark-solid.png" alt="Close icone"></a>
 		</div>
 		<div class="modalContent"> 
 			<h3 id="modalAddGallery">Ajout photo</h3>
@@ -105,7 +105,7 @@
 					</select>
 				</div>
 				<div class="line lineModal2"></div>
-				<button class="valideImage" type="submit" href="index.html">Valider</button>
+				<button class="valideImage" type="submit" >Valider</button>
 		</form>
 		</div>
 	</div>

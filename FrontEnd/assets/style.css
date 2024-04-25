@@ -173,17 +173,18 @@ li:hover {
 }
 
 .btn-filters {
-display:flex;
-justify-content: center;
-margin : 3em auto ;
-column-gap: 20px;
+	display:flex;
+	justify-content: center;
+	margin : 3em auto ;
+	column-gap: 20px;
 }
 
 button {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: #1D6154;
-	border : 2px, #1D6154;
+	border : 2px solid #1D6154;
+	background: white;
 	height: 37px;
 	text-align: center;
 	border-radius: 100px;
@@ -325,7 +326,7 @@ footer nav ul {
 	max-height: calc(100vh - 20px);
 	padding: 30px; 
 	border-radius: 2%;
-	animation: slideFromTop .5s both 
+	animation: slideFromTop .7s both 
 }
 
 .modal[aria-hidden="true"]{
@@ -360,9 +361,28 @@ footer nav ul {
 	justify-content: space-between;
 }
 
-.modal-wrapper button {
+.valideImage, .open-modal2 {
+	color:white;
+	background: #A7A7A7;
+	border : none;
 	width: 235px;
 	margin-top:35px;
+}
+
+.open-modal2 {
+	text-decoration: none;
+	font-family: 'Syne';
+	font-weight: 700;
+	
+	height: 37px;
+	padding: 0 20px;
+	line-height:37px;
+	text-align: center;
+	border-radius: 100px;
+}
+
+.open-modal2:hover {
+	background: #1D6154;
 }
 
 .galleryModal {
@@ -492,9 +512,6 @@ input[type="file"] {
 	flex-direction: column;
 }
 
-.valideImage{
-	color:white;
-	background: #A7A7A7;
-}
+
 
 
