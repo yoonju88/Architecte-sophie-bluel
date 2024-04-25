@@ -9,7 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script src="assets/script.js" defer type="module"></script>
+	<script src="assets/script.js" type="module"></script>
 </head>
 <body>
 <header>
@@ -30,14 +30,13 @@
     <h2>Log In</h2>
     <form id="loginForm" action="#" method="post">
         <label for="email">Email</label>
-        <input type="email" name="email" id="loginEmail">
+        <input type="email" name="email" id="email" autocomplete="email">
         <label for="password">Mot de passe</label>
-        <input type="password" name="password" id="loginPassword">
+        <input type="password" name="password" id="password">
         <div class="errorMessage">
 		</div>
 		<input type="submit" value="Se connecter">
     </form> 
-	
 	    <p>Mot de pass oublié</p>
     </section>
 </main>
