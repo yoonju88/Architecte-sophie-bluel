@@ -17,16 +17,16 @@ export async function addValidationLogin() {
     const loginForm = document.getElementById("loginForm")
     const errorMessage = document.querySelector(".errorMessage")
     // correction erroe on homepage
-    if (!loginForm){ return }
+    if (!loginForm) { return }
 
     loginForm.addEventListener("submit", validationLogin)
 
     async function validationLogin(event) {
         event.preventDefault()
 
-        const userEmail = document.getElementById("loginEmail").value
-        const loginPassword = document.getElementById("loginPassword").value
-        const result = await getLoginUser(userEmail.trim(), loginPassword.trim())        
+        const userEmail = document.getElementById("email").value
+        const loginPassword = document.getElementById("password").value
+        const result = await getLoginUser(userEmail.trim(), loginPassword.trim())
         if (result.token) {
             window.location = "index.html"
             localStorage.setItem("token", result.token)
@@ -38,8 +38,9 @@ export async function addValidationLogin() {
 
 export async function addLogout() {
     const login = document.querySelector(".login")
+    if (!login) { return }
     const saveToken = localStorage.getItem("token")
-    const  body = document.querySelector("body")
+    const body = document.querySelector("body")
     const portfolio = document.getElementById("portfolio")
     let insertModeEdition = `
             <div id ="modeEdition">
@@ -54,17 +55,16 @@ export async function addLogout() {
 		<div class="gallery">
 		</div>
         `
-    function disconnection (event) {
+    function disconnection(event) {
         event.preventDefault()
         localStorage.removeItem("token")
-        window.location.href = "index.html" 
+        window.location.href = "index.html"
     }
-
     if (saveToken) {
-        login.innerHTML="<li>logout</li>"
+        login.innerHTML = "logout"
         login.addEventListener("click", disconnection)
-        body.insertAdjacentHTML ('beforebegin', insertModeEdition)
+        body.insertAdjacentHTML('beforebegin', insertModeEdition)
         portfolio.innerHTML = newContentPf
-    } 
+    }
 }
 

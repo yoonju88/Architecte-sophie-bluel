@@ -16,7 +16,6 @@ async function generateGallery(galleries, targetGallery) {
     if (!sectionGallery) { return }
     sectionGallery.innerHTML = ""
 
-    // 
     for (const gallery of galleries) {
         const figureElement = document.createElement("figure")
         figureElement.dataset.categoryId = gallery.categoryId
@@ -142,9 +141,12 @@ async function inputData() {
     const valideImage = document.querySelector('.valideImage')
     valideImage.addEventListener('click', async e => {
         e.preventDefault();
-        if (!inputFile.files[0] || !title.value || !category.value) { return }
+        if (!inputFile.files[0] || !title.value || !category.value) { 
+            return
+            //add error text if the information missing
+         }
         const categoryId = await getCategoryIdByName(category.value)
-        sendImageToBackend(inputFile.files[0], title.value, categoryId)
+        await sendImageToBackend(inputFile.files[0], title.value, categoryId)
         await regerateGallery ()
         closeSecondModal(e)
         title.value = ""
@@ -207,23 +209,23 @@ const openSecondModal = function (e) {
 };
 
 const showModal = function (target, modalN) {
-    target.style.display = null;
-    target.removeAttribute('aria-hidden');
-    target.setAttribute('aria-modal', 'true');
+    target.style.display = ''
+    target.removeAttribute('aria-hidden')
+    target.setAttribute('aria-modal', 'true')
 
     if (modalN === 'modal') {
         modal = target;
-        modal.addEventListener('click', closeModal);
-        modal.querySelector('.closeModal').addEventListener('click', closeModal);
-        modal.querySelector('.modalStop').addEventListener('click', stopPropagation);
-        const modalAddPhoto = document.querySelector('.open-modal2');
-        modalAddPhoto.addEventListener('click', openSecondModal);
+        modal.addEventListener('click', closeModal)
+        modal.querySelector('.closeModal').addEventListener('click', closeModal)
+        modal.querySelector('.modalStop').addEventListener('click', stopPropagation)
+        const modalAddPhoto = document.querySelector('.open-modal2')
+        modalAddPhoto.addEventListener('click', openSecondModal)
     } else if (modalN === 'modal2') {
         modal2 = target;
-        modal2.addEventListener('click', closeSecondModal);
-        modal2.querySelector('.closeModal2').addEventListener('click', closeSecondModal);
-        modal2.querySelector('.modalStop').addEventListener('click', stopPropagation);
-        modal2.querySelector('.return').addEventListener('click', closeSecondModal);
+        modal2.addEventListener('click', closeSecondModal)
+        modal2.querySelector('.closeModal2').addEventListener('click', closeSecondModal)
+        modal2.querySelector('.modalStop').addEventListener('click', stopPropagation)
+        modal2.querySelector('.return').addEventListener('click', closeSecondModal)
     }
 }
 
