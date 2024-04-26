@@ -512,6 +512,10 @@ input[type="file"] {
 	flex-direction: column;
 }
 
-
+.errorMsg {
+	position :absolute;
+	bottom:140px;
+	color: red;
+}
 
 
