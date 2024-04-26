@@ -1,6 +1,5 @@
 async function getLoginUser(email, password) {
-    const baseUrl = "http://localhost:5678/api/"
-    const loginUser = await fetch(baseUrl + "users/login", {
+    const loginUser = await fetch("http://localhost:5678/api/users/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -10,7 +9,13 @@ async function getLoginUser(email, password) {
             "password": password
         }) // reprise des valeurs "email" et "password" depuis serveur
     })
-    return await loginUser.json()
+    const response = await loginUser.json()
+    if (loginUser.status === 401) {
+        throw new Error("Authentication error")
+    } else if (loginUser.status === 404) {
+        throw new Error("User not found")
+    }
+    return response
 }
 
 export async function addValidationLogin() {
@@ -26,12 +31,21 @@ export async function addValidationLogin() {
 
         const userEmail = document.getElementById("email").value
         const loginPassword = document.getElementById("password").value
-        const result = await getLoginUser(userEmail.trim(), loginPassword.trim())
-        if (result.token) {
-            window.location = "index.html"
-            localStorage.setItem("token", result.token)
-        } else {
-            errorMessage.innerHTML = "<span>Erreur dans l'identifiant ou le mot de passe</span>"
+        try {
+            const result = await getLoginUser(userEmail.trim(), loginPassword.trim())
+            if (result.token) {
+                window.location = "index.html"
+                localStorage.setItem("token", result.token)
+            }
+        } catch (error) {
+            if (error.message === "Authentication error") {
+                errorMessage.innerHTML = "<span>Erreur, mot de passe incorrect.</span>"
+            } else if (error.message === "User not found") {
+                errorMessage.innerHTML = "<span>Erreur, utilisateur inconnu.</span>"
+            } else {
+                errorMessage.innerHTML = "<span>Erreur lors de la connexion.</span>"
+            }
+
         }
     }
 }
@@ -67,4 +81,3 @@ export async function addLogout() {
         portfolio.innerHTML = newContentPf
     }
 }
-
