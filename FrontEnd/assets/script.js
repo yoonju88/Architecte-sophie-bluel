@@ -142,8 +142,9 @@ async function inputData() {
     valideImage.addEventListener('click', async e => {
         e.preventDefault();
         if (!inputFile.files[0] || !title.value || !category.value) { 
+            const errorMsg = document.querySelector(".errorMsg")
+            errorMsg.innerText = "Les informations ne sont pas suffisantes"
             return
-            //add error text if the information missing
          }
         const categoryId = await getCategoryIdByName(category.value)
         await sendImageToBackend(inputFile.files[0], title.value, categoryId)
