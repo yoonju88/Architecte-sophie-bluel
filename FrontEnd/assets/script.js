@@ -125,6 +125,7 @@ async function inputData() {
     // pre-display upload image from input zone 
     inputFile.addEventListener("change", function (e) {
         const file = e.target.files[0]
+        
         if (file) {
             const reader = new FileReader()
             reader.addEventListener("load", function (e) {
@@ -169,11 +170,7 @@ async function deleteUploadImage(e) {
     if (!figure) { return }
     const worksId = figure.dataset.worksId
     await deleteWorks(worksId)
-
-    const getGallery = await fetch(baseUrl + "works", { method: "GET" })
-    const galleries = await getGallery.json()
-    generateGallery(galleries, ".gallery")
-    generateGallery(galleries, ".modal-sectionGallery")
+    await regerateGallery ()
 }
 
 async function deleteWorks(id) {
@@ -207,7 +204,7 @@ const openSecondModal = function (e) {
     e.preventDefault()
     const target = document.querySelector(this.getAttribute('href'))
     showModal(target, 'modal2')
-};
+}
 
 const showModal = function (target, modalN) {
     target.style.display = ''

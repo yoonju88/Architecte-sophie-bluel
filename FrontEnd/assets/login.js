@@ -1,5 +1,7 @@
+
 async function getLoginUser(email, password) {
-    const loginUser = await fetch("http://localhost:5678/api/users/login", {
+    const baseUrl = "http://localhost:5678/api/"
+    const loginUser = await fetch( baseUrl + "users/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
